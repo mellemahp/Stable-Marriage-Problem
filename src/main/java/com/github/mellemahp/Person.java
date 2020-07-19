@@ -23,12 +23,16 @@ public abstract class Person {
         return this.preferenceIndex;
     }
 
-    // public void initializePreferences(PersonList personList) {
-    //     for (Person person : personList) {
-    //         double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
-    //         this.preferenceRanking.add(
-    //             new Preference(person, firstImpressionScore)
-    //         );
-    //     }
-    // }
+    public <T extends Person> void initializePreferences(PersonList<T> personList) {
+        for (Person person : personList) {
+            double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
+            this.preferenceRanking.add(
+                new Preference(person, firstImpressionScore)
+            );
+        }
+    }
+
+    public Person getCurrentPartner() {
+        return this.currentPartner;
+    }
 }
