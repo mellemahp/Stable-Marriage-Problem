@@ -21,7 +21,12 @@ public class PreferenceRanking {
 
         // Add to sorted list
         this.preferenceList.add(preference);
-        this.preferenceList.sort((p1, p2) -> p2.getPreferenceScore(0).compareTo(p2.getPreferenceScore(0)))
+        this.preferenceList.sort((p1, p2) -> {
+            Double p1Score = p1.getPreferenceScore(0);
+            Double p2Score = p2.getPreferenceScore(0);
+
+            return p2Score.compareTo(p1Score);
+        });
     }
 
     public double getPreferenceScore(Person person) { 
