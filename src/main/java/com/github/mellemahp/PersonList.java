@@ -3,7 +3,6 @@ package com.github.mellemahp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
