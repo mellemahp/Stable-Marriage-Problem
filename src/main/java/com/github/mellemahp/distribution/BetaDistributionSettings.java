@@ -1,4 +1,4 @@
-package com.github.mellemahp;
+package com.github.mellemahp.distribution;
 
 public class BetaDistributionSettings extends DistributionSettings{
     private double alpha;
