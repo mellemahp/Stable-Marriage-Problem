@@ -3,9 +3,9 @@ package com.github.mellemahp;
 import org.apache.commons.math3.distribution.RealDistribution;
 
 public class Person {
-    private Person currentPartner;
-    private PreferenceRanking preferenceRanking;
-    private int preferenceIndex = 0;
+    protected Person currentPartner;
+    protected PreferenceRanking preferenceRanking;
+    protected int preferenceIndex = 0;
     private double objectiveAttractivenessScore;
     private RealDistribution preferenceDistribution;
     
