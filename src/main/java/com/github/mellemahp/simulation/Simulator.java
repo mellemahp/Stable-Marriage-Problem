@@ -2,7 +2,6 @@ package com.github.mellemahp.simulation;
 
 import com.github.mellemahp.Person;
 import com.github.mellemahp.PersonList;
-import com.github.mellemahp.SimulationConfig;
 import com.github.mellemahp.Suitor;
 import com.github.mellemahp.distribution.DistributionBuilder;
 

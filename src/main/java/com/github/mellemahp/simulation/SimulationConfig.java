@@ -1,4 +1,4 @@
-package com.github.mellemahp;
+package com.github.mellemahp.simulation;
 
 import com.github.mellemahp.distribution.DistributionSettings;
 
