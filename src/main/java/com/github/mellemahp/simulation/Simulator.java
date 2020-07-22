@@ -1,5 +1,9 @@
-package com.github.mellemahp;
+package com.github.mellemahp.simulation;
 
+import com.github.mellemahp.Person;
+import com.github.mellemahp.PersonList;
+import com.github.mellemahp.SimulationConfig;
+import com.github.mellemahp.Suitor;
 import com.github.mellemahp.distribution.DistributionBuilder;
 
 import org.apache.commons.math3.distribution.RealDistribution;
