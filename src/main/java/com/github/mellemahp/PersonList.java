@@ -30,5 +30,13 @@ public class PersonList implements Iterable<Person> {
     public Iterator<Person> iterator() {
         return this.listOfPersons.iterator();
     }
-    
+
+    public void initializePreferenceList(PersonList otherPersonList) {
+        this.forEach(person -> person.initializePreferences(otherPersonList));
+    }
+
+    public boolean hasUnpairedPerson() {
+        return this.listOfPersons.stream()
+            .anyMatch(person -> person.getCurrentPartner() == null);
+    }
 }
