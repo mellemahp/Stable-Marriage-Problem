@@ -1,4 +1,4 @@
-package com.github.mellemahp;
+package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 

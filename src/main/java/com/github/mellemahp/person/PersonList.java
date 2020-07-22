@@ -1,4 +1,4 @@
-package com.github.mellemahp;
+package com.github.mellemahp.person;
 
 import java.util.ArrayList;
 import java.util.Iterator;
