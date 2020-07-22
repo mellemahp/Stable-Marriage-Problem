@@ -39,4 +39,12 @@ public class Simulator {
         this.suitees.initializePreferenceList(this.suitors);
     }
     
+    public void run() {
+        while (this.suitors.hasUnpairedPerson()) {
+            this.suitors.forEach(person -> {
+                Suitor suitor = (Suitor) person;
+                suitor.propose();
+            });
+        }
+    }
 }
