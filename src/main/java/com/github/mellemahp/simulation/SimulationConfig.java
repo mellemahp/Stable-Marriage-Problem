@@ -9,6 +9,10 @@ public class SimulationConfig {
     private DistributionSettings suiteeDistribution;
     private DistributionSettings preferenceDistribution;
 
+    public SimulationConfig() {
+        // TODO: Handle reading config file
+    }
+
     public int getNumberOfSuitors() {
         return numberOfSuitors;
     }
