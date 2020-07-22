@@ -19,7 +19,7 @@ public class Person {
         return this.preferenceIndex;
     }
 
-    public <T extends Person> void initializePreferences(PersonList personList) {
+    public void initializePreferences(PersonList personList) {
         for (Person person : personList) {
             double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
             this.preferenceRanking.add(
