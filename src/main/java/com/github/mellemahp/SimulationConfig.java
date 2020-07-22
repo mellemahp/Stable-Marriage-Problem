@@ -1,5 +1,7 @@
 package com.github.mellemahp;
 
+import com.github.mellemahp.distribution.DistributionSettings;
+
 public class SimulationConfig {
     private int numberOfSuitors;
     private int numberOfSuitees;
