@@ -47,4 +47,13 @@ public class Simulator {
             });
         }
     }
+
+    public void printResults() {
+        // TODO: this is placeholder. Please write better way to report data
+
+        this.suitors.forEach(person -> {
+            Person partner = person.getCurrentPartner();
+            System.out.println(partner);
+        });
+    }
 }
