@@ -8,17 +8,18 @@ public class Suitor extends Person {
     }
 
     public void propose() {
-        Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
-        ProposalAnswer answer = currentSuitee.reviewProposal(this);
-        
-        switch (answer) {
-            case ACCEPT:
-                this.currentPartner = currentSuitee;
-                break;
-            case REJECT:
-                this.preferenceIndex++;
-                break;
-        }
+        if (this.currentPartner == null) {
+            Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
+            ProposalAnswer answer = currentSuitee.reviewProposal(this);
+            
+            switch (answer) {
+                case ACCEPT:
+                    this.currentPartner = currentSuitee;
+                    break;
+                case REJECT:
+                    this.preferenceIndex++;
+                    break;
+            }
+        }        
     }
-
 }

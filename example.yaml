@@ -1,17 +1,17 @@
 ---
 SuitorConfigs:
-  numberOfSuitors: 100
+  numberOfSuitors: 5
   suitorDistribution:
     DistributionType: Normal
     Mean: 0.0
-    StandardDeviation: 5.0
+    StandardDeviation: 12.5
 
 SuiteeConfigs: 
-  numberOfSuitees: 100
+  numberOfSuitees: 5
   suiteeDistribution:
     DistributionType: Normal
     Mean: 0.0
-    StandardDeviation: 5.0
+    StandardDeviation: 12.5
 
 PreferenceConfigs: 
   preferenceDistribution:

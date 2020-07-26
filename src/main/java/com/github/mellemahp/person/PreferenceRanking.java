@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PreferenceRanking {
-    public List<Preference> preferenceList;
-    public Map<Person, Preference> preferenceMap;
+    private List<Preference> preferenceList;
+    private Map<Person, Preference> preferenceMap;
 
     public PreferenceRanking() {
         this.preferenceList = new ArrayList<>();
@@ -45,6 +46,17 @@ public class PreferenceRanking {
             .filter(i -> this.preferenceList.get(i).getPerson().equals(person))
             .findFirst()
             .getAsInt();
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.preferenceList
+            .stream()
+            .map(preference -> preference.getPerson())
+            .map(person -> person.hashCode())
+            .map(String::valueOf)
+            .map(s -> s.substring(0, 4))
+            .collect(Collectors.joining(", ")) + "]";
     }
 
 }

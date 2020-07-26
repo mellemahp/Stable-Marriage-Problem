@@ -2,17 +2,17 @@ package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
-public class Suitee extends Person{
+public class Suitee extends Person {
     public Suitee(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }
 
     public ProposalAnswer reviewProposal(Suitor newSuitor) {
         if (newSuitorHasHigherPreferenceRanking(newSuitor)) { 
+            this.breakUp();
             this.currentPartner = newSuitor;
-    
-        return ProposalAnswer.ACCEPT;
-    }
+            return ProposalAnswer.ACCEPT;
+        }
 
         return ProposalAnswer.REJECT;
     }

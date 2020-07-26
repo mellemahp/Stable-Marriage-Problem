@@ -11,11 +11,6 @@ public class SimulationRunner {
 
         InputStream config = new FileInputStream(new File(filename));
         SimulationConfig simulationConfig = new SimulationConfig(config);
-
-        System.out.println("Hey there handsome! Check out my params ;)");
-        System.out.println("Number of Suitees: " + simulationConfig.getNumberOfSuitees());
-        System.out.println("Number of Suitors: " + simulationConfig.getNumberOfSuitors());
-
         Simulator simulator = new Simulator(simulationConfig);
         simulator.run();
         // simulator.printResults();
