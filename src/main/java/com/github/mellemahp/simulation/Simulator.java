@@ -3,13 +3,14 @@ package com.github.mellemahp.simulation;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.person.Person;
 import com.github.mellemahp.person.PersonList;
+import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.Suitor;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
 public class Simulator {
-    private PersonList suitors;
-    private PersonList suitees;
+    private PersonList<Suitor> suitors;
+    private PersonList<Suitee> suitees;
 
     public Simulator(SimulationConfig simulationConfig) {
         // Make distributions for Suitor, Suitee and Preference
@@ -26,12 +27,14 @@ public class Simulator {
             .build();
         
         // Build list of suitors and suitees
-        this.suitors = new PersonList(
+        this.suitors = new PersonList<>(
+            Suitor.class,
             simulationConfig.getNumberOfSuitors(),
             suitorDistribution,
             preferenceDistribution
         );
-        this.suitees = new PersonList(
+        this.suitees = new PersonList<>(
+            Suitee.class,
             simulationConfig.getNumberOfSuitees(),
             suiteeDistribution,
             preferenceDistribution
@@ -43,12 +46,13 @@ public class Simulator {
     }
     
     public void run() {
-        while (this.suitors.hasUnpairedPerson()) {
-            this.suitors.forEach(person -> {
-                Suitor suitor = (Suitor) person;
-                suitor.propose();
-            });
-        }
+        System.out.println(this.suitors.getPersonList().get(0).getClass());
+
+        // while (this.suitors.hasUnpairedPerson()) {
+        //     for (int i = 0; i < this.suitors.getPersonList().size(); i++) {
+        //         System.out.println(this.suitors.getPersonList().get(i).getClass());
+        //     }
+        // }
     }
 
     public void printResults() {

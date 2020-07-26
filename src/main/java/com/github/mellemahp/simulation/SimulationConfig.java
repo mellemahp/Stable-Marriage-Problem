@@ -21,28 +21,29 @@ public class SimulationConfig {
     public SimulationConfig(InputStream configFileStream) {
         Yaml yaml = new Yaml();
         Map<String, Map<String, Object>> configs = yaml.load(configFileStream);
-        Map<String, Object> suiteeConfigs = configs.get("SuiteeConfigs"); 
-        Map<String, Object> suitorConfigs = configs.get("SuiteeConfigs"); 
+        Map<String, Object> suiteeConfigs = configs.get("SuiteeConfigs");
+        Map<String, Object> suitorConfigs = configs.get("SuitorConfigs"); 
         Map<String, Object> preferenceConfigs = configs.get("PreferenceConfigs");
-        
+
         this.numberOfSuitors = (int) suitorConfigs.get("numberOfSuitors");
-        this.numberOfSuitees = (int) suiteeConfigs.get("numberOfSuitees");
+        this.numberOfSuitees = (int) suiteeConfigs.get("numberOfSuitees");        
         this.suiteeDistribution = createDistributionSettingsFromConfig((Map<String, Object>) suiteeConfigs.get("suiteeDistribution"));
         this.preferenceDistribution = createDistributionSettingsFromConfig((Map<String, Object>) suitorConfigs.get("suitorDistribution"));
         this.suitorDistribution = createDistributionSettingsFromConfig((Map<String, Object>) preferenceConfigs.get("preferenceDistribution"));
     }
 
     private DistributionSettings createDistributionSettingsFromConfig(Map<String, Object> distributionConfig) throws InvalidParameterException { 
-        String distType = (String) distributionConfig.get("DistributionType"); 
+        String distType = (String) distributionConfig.get("DistributionType");
+        
         switch(distType){
             case "Normal":
                 return new NormalDistributionSettings(
-                    (double) distributionConfig.get("mean"), 
-                    (double) distributionConfig.get("standardDeviation"));
+                    (double) distributionConfig.get("Mean"), 
+                    (double) distributionConfig.get("StandardDeviation"));
             case "Beta":
                 return new BetaDistributionSettings(
-                    (double) distributionConfig.get("alpha"), 
-                    (double) distributionConfig.get("beta"));
+                    (double) distributionConfig.get("Alpha"), 
+                    (double) distributionConfig.get("Beta"));
             default: 
                 throw new InvalidParameterException(String.format("Distribution type {} not valid", distType));
         }

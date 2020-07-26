@@ -2,7 +2,7 @@ package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
-public class Suitor extends Person{
+public class Suitor extends Person {
     public Suitor(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }
