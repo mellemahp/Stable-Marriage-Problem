@@ -5,14 +5,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.yaml.snakeyaml.Yaml;
+
 public class SimulationRunner {
     public static void main(String[] args) throws FileNotFoundException {
         String filename = "example.yaml"; // args[0];
 
-        InputStream config = new FileInputStream(new File(filename));
-        SimulationConfig simulationConfig = new SimulationConfig(config);
-        Simulator simulator = new Simulator(simulationConfig);
-        simulator.run();
+        InputStream configFile = new FileInputStream(new File(filename));
+        Yaml yaml = new Yaml();
+        SimulationConfig simulationConfig = yaml.load(configFile);
+        //Simulator simulator = new Simulator(simulationConfig);
+        //simulator.run();
         // simulator.printResults();
     }
 }
