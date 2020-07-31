@@ -1,23 +1,22 @@
 ---
 !!com.github.mellemahp.configuration.SimulationConfig
-SuitorConfig:
-  NumberOfPeople: 5
-  Distribution:
-    DistributionType: Normal
-    Properties:
-      Mean: 0.0
-      StandardDeviation: 12.5
-SuiteeConfig: 
-  NumberOfPeople: 5
-  Distribution:
-    DistributionType: Normal
-    Properties:
-      Mean: 0.0
-      StandardDeviation: 12.5
-
-PreferenceConfigs: 
-  Distribution:
-    DistributionType: Normal
-    Properties:
-      Mean: 0.0
-      StandardDeviation: 0.5
+suitorConfig:
+  numberOfPeople: 5
+  distribution:
+    distributionType: NORMAL
+    properties:
+      mean: 0.0
+      standardDeviation: 12.5
+suiteeConfig: 
+  numberOfPeople: 5
+  distribution:
+    distributionType: NORMAL
+    properties:
+      mean: 0.0
+      standardDeviation: 12.5
+preferenceConfig: 
+  distribution:
+    distributionType: NORMAL
+    properties:
+      mean: 0.0
+      standardDeviation: 0.5

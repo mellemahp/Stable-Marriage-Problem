@@ -10,6 +10,8 @@ import com.github.mellemahp.person.SuitorSupplier;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import com.github.mellemahp.configuration.SimulationConfig;
+
 public class Simulator {
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
@@ -19,25 +21,25 @@ public class Simulator {
         DistributionBuilder distributionBuilder = new DistributionBuilder();
         
         RealDistribution suitorDistribution = distributionBuilder
-            .with(simulationConfig.getSuitorDistribution())
+            .with(simulationConfig.getSuitorConfig().getDistribution())
             .build();
         RealDistribution suiteeDistribution = distributionBuilder
-            .with(simulationConfig.getSuiteeDistribution())
+            .with(simulationConfig.getSuitorConfig().getDistribution())
             .build();
         RealDistribution preferenceDistribution = distributionBuilder
-            .with(simulationConfig.getPreferenceDistribution())
+            .with(simulationConfig.getPreferenceConfig().getDistribution())
             .build();
         
         // Build list of suitors and suitees
         this.suitors = new PersonList<>(
-            simulationConfig.getNumberOfSuitors(),
+            simulationConfig.getSuitorConfig().getNumberOfPeople(),
             suitorDistribution,
             preferenceDistribution
         );
         this.suitors.with(new SuitorSupplier()).build();
 
         this.suitees = new PersonList<>(
-            simulationConfig.getNumberOfSuitees(),
+            simulationConfig.getSuiteeConfig().getNumberOfPeople(),
             suiteeDistribution,
             preferenceDistribution
         );

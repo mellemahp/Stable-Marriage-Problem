@@ -6,16 +6,21 @@ import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 
+import java.util.Map;
+
+import com.github.mellemahp.configuration.DistributionConfig;
+
+
 public class DistributionBuilder {
     private RandomGenerator randomGenerator;
-    private DistributionSettings distributionSettings;
+    private DistributionConfig distributionConfig;
 
     public DistributionBuilder() {
         this.randomGenerator = new JDKRandomGenerator();
     }
 
-    public DistributionBuilder with(DistributionSettings distributionSettings) {
-        this.distributionSettings = distributionSettings;
+    public DistributionBuilder with(DistributionConfig distributionConfig) {
+        this.distributionConfig = distributionConfig;
 
         return this;
     }
@@ -23,18 +28,17 @@ public class DistributionBuilder {
     public RealDistribution build() {
         RealDistribution realDistribution = null;
 
-        DistributionType distributionType = this.distributionSettings.getDistributionType();
+        DistributionType distributionType = this.distributionConfig.getDistributionType();
+        Map<String, Double> distributionProperties = this.distributionConfig.getProperties();
         switch (distributionType) {
             case BETA:
-                BetaDistributionSettings betaDistributionSettings = (BetaDistributionSettings) this.distributionSettings;
-                double alpha = betaDistributionSettings.getAlpha();
-                double beta = betaDistributionSettings.getBeta();
+                double alpha = distributionProperties.get("alpha");
+                double beta = distributionProperties.get("beta");
                 realDistribution = new BetaDistribution(this.randomGenerator, alpha, beta);
                 break;
             case NORMAL:
-                NormalDistributionSettings normalDistributionSettings = (NormalDistributionSettings) this.distributionSettings;
-                double mean = normalDistributionSettings.getMean();
-                double standardDeviation = normalDistributionSettings.getStandardDeviation();
+                double mean = distributionProperties.get("mean");
+                double standardDeviation = distributionProperties.get("standardDeviation");
                 realDistribution = new NormalDistribution(this.randomGenerator, mean, standardDeviation);
                 break;
         }

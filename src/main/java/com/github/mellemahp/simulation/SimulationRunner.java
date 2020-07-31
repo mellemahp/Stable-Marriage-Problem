@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import com.github.mellemahp.configuration.SimulationConfig;
+
 import org.yaml.snakeyaml.Yaml;
 
 public class SimulationRunner {
@@ -14,8 +16,8 @@ public class SimulationRunner {
         InputStream configFile = new FileInputStream(new File(filename));
         Yaml yaml = new Yaml();
         SimulationConfig simulationConfig = yaml.load(configFile);
-        //Simulator simulator = new Simulator(simulationConfig);
-        //simulator.run();
-        // simulator.printResults();
+        Simulator simulator = new Simulator(simulationConfig);
+        simulator.run();
+        simulator.printResults();
     }
 }
