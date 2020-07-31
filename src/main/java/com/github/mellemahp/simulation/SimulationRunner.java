@@ -12,10 +12,10 @@ import org.yaml.snakeyaml.Yaml;
 public class SimulationRunner {
     public static void main(String[] args) throws FileNotFoundException {
         String filename = "example.yaml"; // args[0];
-
+    
         InputStream configFile = new FileInputStream(new File(filename));
         Yaml yaml = new Yaml();
-        SimulationConfig simulationConfig = yaml.load(configFile);
+        SimulationConfig simulationConfig = yaml.loadAs(configFile, SimulationConfig.class);
         Simulator simulator = new Simulator(simulationConfig);
         simulator.run();
         simulator.printResults();

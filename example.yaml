@@ -1,5 +1,4 @@
 ---
-!!com.github.mellemahp.configuration.SimulationConfig
 suitorConfig:
   numberOfPeople: 5
   distribution:
