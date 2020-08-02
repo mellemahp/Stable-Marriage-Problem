@@ -3,6 +3,7 @@ package com.github.mellemahp.simulation;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.person.Person;
 import com.github.mellemahp.person.PersonList;
+import com.github.mellemahp.person.PreferenceRanking;
 import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
@@ -64,7 +65,20 @@ public class Simulator {
         System.out.println("=====================================");
         System.out.println("Completed in " + epochs + " epochs.");
         System.out.println("=====================================");
+        System.out.println("Stable configuration: " + isStablePairing());
+        System.out.println("=====================================");
         printResults();
+    }
+
+    public boolean isStablePairing() {
+        // NOTE: this can be parallelized
+        for (Suitor suitor : this.suitors) {
+            if (suitor.hasBetterPartnerOption()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void printResults() {

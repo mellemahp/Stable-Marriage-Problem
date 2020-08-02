@@ -4,7 +4,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 
 public class Person {
     protected Person currentPartner;
-    protected PreferenceRanking preferenceRanking;
+    public PreferenceRanking preferenceRanking;
     protected int preferenceIndex = 0;
     protected double objectiveAttractivenessScore;
     protected RealDistribution preferenceDistribution;
@@ -46,5 +46,37 @@ public class Person {
 
     public String getPreferenceRankingString() {
         return this.preferenceRanking.toString();
+    }
+
+    public boolean hasBetterPartnerOption() {
+        if (this.currentPartner == null) {
+            // TODO: Need to check if all potential partners have no currentPartner
+            //
+            // If at least one potential partner has no current partner,
+            // then return true
+            // else, return false
+            // For now, it's safe to return true for the stable marriage problem
+
+            return true;
+        }
+
+        // Iterate over all possible partners that are higher up in the preference ranking
+        for (int i = 0; i < this.preferenceIndex; i++) {
+            Person preferredPartner = this.preferenceRanking.getPerson(i);
+
+            // Ranking preferredPartner's partner
+
+            int rankPartnerOfPreferredPartner = preferredPartner.getPreferenceIndex();
+
+            // Ranking of this Person in preferredPartner's preference ranking
+            int rankThisPerson = preferredPartner.preferenceRanking.getPreferenceIndexOfPerson(this);
+            
+            if (rankThisPerson < rankPartnerOfPreferredPartner) {
+                // The preferredPartner also would rather be with this Person
+                return true;
+            }
+        }
+
+        return false;
     }
 }
