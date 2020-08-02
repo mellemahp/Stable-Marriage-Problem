@@ -8,7 +8,7 @@ public class Suitee extends Person {
     }
 
     public ProposalAnswer reviewProposal(Suitor newSuitor) {
-        if (newSuitorHasHigherPreferenceRanking(newSuitor)) { 
+        if (newSuitorHasHigherPreferenceRanking(newSuitor)) {
             this.breakUp();
             this.currentPartner = newSuitor;
             return ProposalAnswer.ACCEPT;
@@ -17,8 +17,8 @@ public class Suitee extends Person {
         return ProposalAnswer.REJECT;
     }
 
-    private boolean newSuitorHasHigherPreferenceRanking(Suitor newSuitor)  {
-        if (this.currentPartner == null) { 
+    private boolean newSuitorHasHigherPreferenceRanking(Suitor newSuitor) {
+        if (this.currentPartner == null) {
             return true;
         }
 

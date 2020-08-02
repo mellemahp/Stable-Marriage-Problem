@@ -19,55 +19,58 @@ public class Simulator {
     private EventBus bus;
     private int epochChangeThreshold;
     private int maxEpochs;
-    
+
     public Simulator(SimulationConfig simulationConfig) {
         // Create new event bus
         this.bus = new EventBus();
 
         // set simulation stopping conditions
-        this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig().getEpochChangeThreshold();
-        this.maxEpochs = simulationConfig.getStoppingConditionsConfig().getMaxEpochs();
+        this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig()
+                .getEpochChangeThreshold();
+        this.maxEpochs = simulationConfig.getStoppingConditionsConfig()
+                .getMaxEpochs();
 
         // Make distributions for Suitor, Suitee and Preference
         DistributionBuilder distributionBuilder = new DistributionBuilder();
-        
+
         RealDistribution suitorDistribution = distributionBuilder
-            .with(simulationConfig.getSuitorConfig().getDistribution())
-            .build();
+                .with(simulationConfig.getSuitorConfig().getDistribution())
+                .build();
         RealDistribution suiteeDistribution = distributionBuilder
-            .with(simulationConfig.getSuitorConfig().getDistribution())
-            .build();
+                .with(simulationConfig.getSuitorConfig().getDistribution())
+                .build();
         RealDistribution preferenceDistribution = distributionBuilder
-            .with(simulationConfig.getPreferenceConfig().getDistribution())
-            .build();
+                .with(simulationConfig.getPreferenceConfig().getDistribution())
+                .build();
 
         // Build list of suitors and suitees
         this.suitors = new PersonList<>(
-            simulationConfig.getSuitorConfig().getNumberOfPeople(),
-            suitorDistribution,
-            preferenceDistribution
-        );
-        this.suitors.with(new SuitorSupplier()).build();
+                simulationConfig.getSuitorConfig().getNumberOfPeople(),
+                suitorDistribution,
+                preferenceDistribution);
+        this.suitors.with(new SuitorSupplier())
+                .build();
 
         this.suitees = new PersonList<>(
-            simulationConfig.getSuiteeConfig().getNumberOfPeople(),
-            suiteeDistribution,
-            preferenceDistribution
-        );
-        this.suitees.with(new SuiteeSupplier()).build();
+                simulationConfig.getSuiteeConfig().getNumberOfPeople(),
+                suiteeDistribution,
+                preferenceDistribution);
+        this.suitees.with(new SuiteeSupplier())
+                .build();
 
         // Initialize preference rankings for suitors and suitees
         this.suitors.initializePreferenceList(this.suitees);
         this.suitees.initializePreferenceList(this.suitors);
     }
-    
+
     public void run() {
         int epochsWithoutChange = 0;
-        while (epochsWithoutChange < this.epochChangeThreshold && bus.getCurrentEpoch() < this.maxEpochs) {
+        while (epochsWithoutChange < this.epochChangeThreshold
+                && bus.getCurrentEpoch() < this.maxEpochs) {
             this.suitors.forEach(suitor -> suitor.propose(bus));
-            if (bus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) { 
+            if (bus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) {
                 epochsWithoutChange = 0;
-            } else { 
+            } else {
                 epochsWithoutChange++;
             }
             bus.incrementEpoch();

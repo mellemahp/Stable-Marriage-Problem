@@ -13,7 +13,7 @@ public class PreferenceRanking {
 
     public PreferenceRanking() {
         this.preferenceList = new ArrayList<>();
-        this.preferenceMap = new HashMap<>(); 
+        this.preferenceMap = new HashMap<>();
     }
 
     public void add(Preference preference) {
@@ -30,33 +30,32 @@ public class PreferenceRanking {
         });
     }
 
-    public double getPreferenceScore(Person person) { 
+    public double getPreferenceScore(Person person) {
         return this.preferenceMap.get(person).getPreferenceScore(0);
     }
 
-    public Person getPerson(int index) { 
+    public Person getPerson(int index) {
         return this.preferenceList.get(index).getPerson();
     }
-    
-    public int getPreferenceIndexOfPerson(Person person) {
-        // NOTE: There is no equals implementation for Person, so it will use the memory address when
-        // using equals. We will need to implement equals for the Person class.
 
+    public int getPreferenceIndexOfPerson(Person person) {
+        // NOTE: There is no equals implementation for Person, so it will use the memory
+        // address when using equals. We will need to implement equals for the Person class.
         return IntStream.range(0, this.preferenceList.size())
-            .filter(i -> this.preferenceList.get(i).getPerson().equals(person))
-            .findFirst()
-            .getAsInt();
+                .filter(i -> this.preferenceList.get(i).getPerson().equals(person))
+                .findFirst()
+                .getAsInt();
     }
 
     @Override
     public String toString() {
         return "[" + this.preferenceList
-            .stream()
-            .map(Preference::getPerson)
-            .map(Person::hashCode)
-            .map(String::valueOf)
-            .map(s -> s.substring(0, 4))
-            .collect(Collectors.joining(", ")) + "]";
+                .stream()
+                .map(Preference::getPerson)
+                .map(Person::hashCode)
+                .map(String::valueOf)
+                .map(s -> s.substring(0, 4))
+                .collect(Collectors.joining(", ")) + "]";
     }
 
     public int size() {

@@ -6,5 +6,5 @@ public class SuiteeSupplier extends PersonSupplier<Suitee> {
     public Suitee get() {
         return new Suitee(this.score, this.preferenceDistribution);
     }
-    
+
 }

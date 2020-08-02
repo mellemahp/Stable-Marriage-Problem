@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.github.mellemahp.configuration.DistributionConfig;
 
-
 public class DistributionBuilder {
     private RandomGenerator randomGenerator;
     private DistributionConfig distributionConfig;
@@ -31,16 +30,16 @@ public class DistributionBuilder {
         DistributionType distributionType = this.distributionConfig.getDistributionType();
         Map<String, Double> distributionProperties = this.distributionConfig.getProperties();
         switch (distributionType) {
-            case BETA:
-                double alpha = distributionProperties.get("alpha");
-                double beta = distributionProperties.get("beta");
-                realDistribution = new BetaDistribution(this.randomGenerator, alpha, beta);
-                break;
-            case NORMAL:
-                double mean = distributionProperties.get("mean");
-                double standardDeviation = distributionProperties.get("standardDeviation");
-                realDistribution = new NormalDistribution(this.randomGenerator, mean, standardDeviation);
-                break;
+        case BETA:
+            double alpha = distributionProperties.get("alpha");
+            double beta = distributionProperties.get("beta");
+            realDistribution = new BetaDistribution(this.randomGenerator, alpha, beta);
+            break;
+        case NORMAL:
+            double mean = distributionProperties.get("mean");
+            double standardDeviation = distributionProperties.get("standardDeviation");
+            realDistribution = new NormalDistribution(this.randomGenerator, mean, standardDeviation);
+            break;
         }
 
         return realDistribution;

@@ -6,35 +6,35 @@ public class SimulationConfig {
     private PersonConfig suiteeConfig;
     private PreferenceConfig preferenceConfig;
 
-    public void setSuitorConfig(PersonConfig suitorConfig) { 
+    public void setSuitorConfig(PersonConfig suitorConfig) {
         this.suitorConfig = suitorConfig;
     }
 
-    public PersonConfig getSuitorConfig() { 
+    public PersonConfig getSuitorConfig() {
         return this.suitorConfig;
     }
 
-    public void setSuiteeConfig(PersonConfig suiteeConfig) { 
+    public void setSuiteeConfig(PersonConfig suiteeConfig) {
         this.suiteeConfig = suiteeConfig;
     }
 
-    public PersonConfig getSuiteeConfig() { 
+    public PersonConfig getSuiteeConfig() {
         return this.suiteeConfig;
     }
 
-    public void setPreferenceConfig(PreferenceConfig preferenceConfig) { 
+    public void setPreferenceConfig(PreferenceConfig preferenceConfig) {
         this.preferenceConfig = preferenceConfig;
     }
 
-    public PreferenceConfig getPreferenceConfig() { 
+    public PreferenceConfig getPreferenceConfig() {
         return this.preferenceConfig;
     }
 
-    public void setStoppingConditionsConfig(StoppingConditionsConfig stoppingConditionsConfig) { 
+    public void setStoppingConditionsConfig(StoppingConditionsConfig stoppingConditionsConfig) {
         this.stoppingConditionsConfig = stoppingConditionsConfig;
     }
-    
-    public StoppingConditionsConfig getStoppingConditionsConfig() { 
+
+    public StoppingConditionsConfig getStoppingConditionsConfig() {
         return this.stoppingConditionsConfig;
     }
 

@@ -14,13 +14,13 @@ public class Suitor extends Person {
         if (this.currentPartner == null) {
             Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
             ProposalAnswer answer = currentSuitee.reviewProposal(this);
-            
+
             if (answer == ProposalAnswer.ACCEPT) {
                 bus.putEvent(Event.NEW_PARTNER);
                 this.currentPartner = currentSuitee;
             } else {
                 this.preferenceIndex++;
             }
-        }        
+        }
     }
 }

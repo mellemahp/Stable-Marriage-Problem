@@ -11,27 +11,23 @@ public class PersonList<T extends Person> implements Iterable<T> {
     private int numberOfPersons;
     private RealDistribution objectiveAttractivenessDistribution;
     private RealDistribution preferenceDistribution;
-
     private PersonSupplier<T> personSupplier;
-
     private List<T> listOfPersons;
 
-    public PersonList(int numberOfPersons, RealDistribution objectiveAttractivenessDistribution, RealDistribution preferenceDistribution) {
+    public PersonList(int numberOfPersons, RealDistribution objectiveAttractivenessDistribution,
+            RealDistribution preferenceDistribution) {
         this.numberOfPersons = numberOfPersons;
         this.objectiveAttractivenessDistribution = objectiveAttractivenessDistribution;
         this.preferenceDistribution = preferenceDistribution;
     }
-    
+
     public void build() {
         List<T> listOfPersonsTemp = new ArrayList<>();
 
         for (int i = 0; i < this.numberOfPersons; i++) {
             double score = this.objectiveAttractivenessDistribution.sample();
-            listOfPersons.add(
-                this.personSupplier.setScore(score)
-                    .setPreferenceDistribution(preferenceDistribution)
-                    .get()
-            );
+            listOfPersonsTemp.add(this.personSupplier.setScore(score)
+                    .setPreferenceDistribution(preferenceDistribution).get());
         }
 
         this.listOfPersons = listOfPersonsTemp;
@@ -41,7 +37,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
         this.personSupplier = personSupplier;
         return this;
     }
-    
+
     @Override
     public Iterator<T> iterator() {
         return this.listOfPersons.iterator();
@@ -52,17 +48,12 @@ public class PersonList<T extends Person> implements Iterable<T> {
     }
 
     public boolean hasUnpairedPerson() {
-        return this.listOfPersons.stream()
-            .anyMatch(person -> person.getCurrentPartner() == null);
+        return this.listOfPersons.stream().anyMatch(person -> person.getCurrentPartner() == null);
     }
 
     @Override
     public String toString() {
-        return this.listOfPersons
-            .stream()
-            .map(Person::hashCode)
-            .map(String::valueOf)
-            .map(s -> s.substring(0, 4))
-            .collect(Collectors.joining(" | "));
+        return this.listOfPersons.stream().map(Person::hashCode).map(String::valueOf)
+                .map(s -> s.substring(0, 4)).collect(Collectors.joining(" | "));
     }
 }
