@@ -1,13 +1,14 @@
 ---
+epochChangeThreshold: 2
 suitorConfig:
-  numberOfPeople: 5
+  numberOfPeople: 3
   distribution:
     distributionType: NORMAL
     properties:
       mean: 0.0
       standardDeviation: 12.5
 suiteeConfig: 
-  numberOfPeople: 5
+  numberOfPeople: 3
   distribution:
     distributionType: NORMAL
     properties:

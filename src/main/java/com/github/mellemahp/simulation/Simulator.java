@@ -2,6 +2,8 @@ package com.github.mellemahp.simulation;
 
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.distribution.DistributionBuilder;
+import com.github.mellemahp.events.Event;
+import com.github.mellemahp.events.EventBus;
 import com.github.mellemahp.person.Person;
 import com.github.mellemahp.person.PersonList;
 import com.github.mellemahp.person.Suitee;
@@ -14,8 +16,13 @@ import org.apache.commons.math3.distribution.RealDistribution;
 public class Simulator {
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
-
+    private EventBus bus;
+    private int epochChangeThreshold;
+    
     public Simulator(SimulationConfig simulationConfig) {
+        // Create new event bus
+        this.bus = new EventBus();
+
         // Make distributions for Suitor, Suitee and Preference
         DistributionBuilder distributionBuilder = new DistributionBuilder();
         
@@ -28,6 +35,9 @@ public class Simulator {
         RealDistribution preferenceDistribution = distributionBuilder
             .with(simulationConfig.getPreferenceConfig().getDistribution())
             .build();
+
+        // Set number of epochs without change to stop simulation
+        this.epochChangeThreshold = simulationConfig.getEpochChangeThreshold();
         
         // Build list of suitors and suitees
         this.suitors = new PersonList<>(
@@ -55,17 +65,23 @@ public class Simulator {
         System.out.println("Suitees:");
         System.out.println(this.suitees);
 
-        int epochs = 0;
-        while (this.suitors.hasUnpairedPerson()) {
-            this.suitors.forEach(Suitor::propose);
-            epochs++;
+        int epochs_without_change = 0;
+        while (epochs_without_change < this.epochChangeThreshold) {
+            this.suitors.forEach(suitor -> suitor.propose(bus));
+            System.out.println(bus.count_events_current_epoch(Event.NEW_PARTNER));
+            if (bus.count_events_current_epoch(Event.NEW_PARTNER) != 0) { 
+                epochs_without_change = 0;
+            } else { 
+                epochs_without_change++;
+            }
+            bus.increment_epoch();
         }
         System.out.println("=====================================");
-        System.out.println("Completed in " + epochs + " epochs.");
+        System.out.println("Completed in " + bus.getCurrentEpoch() + " epochs.");
         System.out.println("=====================================");
         System.out.println("Stable configuration: " + isStablePairing());
         System.out.println("=====================================");
-        printResults();
+        //printResults();
     }
 
     public boolean isStablePairing() {
@@ -81,6 +97,7 @@ public class Simulator {
 
     public void printResults() {
         // TODO: this is placeholder. Please write better way to report data
+        System.out.println("+++++++++++++++++++++");
         this.suitors.forEach(suitor -> {
             Person suitee = suitor.getCurrentPartner();
             System.out.println(String.format("%s -> %s", suitor, suitee));
