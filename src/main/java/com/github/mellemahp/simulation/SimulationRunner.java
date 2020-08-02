@@ -18,6 +18,6 @@ public class SimulationRunner {
         SimulationConfig simulationConfig = yaml.loadAs(configFile, SimulationConfig.class);
         Simulator simulator = new Simulator(simulationConfig);
         simulator.run();
-        simulator.printResults();
+        //simulator.printResults();
     }
 }

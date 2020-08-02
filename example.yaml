@@ -1,14 +1,16 @@
 ---
-epochChangeThreshold: 2
+stoppingConditionsConfig:
+  maxEpochs: 500
+  epochChangeThreshold: 5
 suitorConfig:
-  numberOfPeople: 3
+  numberOfPeople: 100
   distribution:
     distributionType: NORMAL
     properties:
       mean: 0.0
       standardDeviation: 12.5
 suiteeConfig: 
-  numberOfPeople: 3
+  numberOfPeople: 100
   distribution:
     distributionType: NORMAL
     properties:

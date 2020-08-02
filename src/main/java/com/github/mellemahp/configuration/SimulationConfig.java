@@ -1,10 +1,10 @@
 package com.github.mellemahp.configuration;
 
 public class SimulationConfig {
+    private StoppingConditionsConfig stoppingConditionsConfig;
     private PersonConfig suitorConfig;
     private PersonConfig suiteeConfig;
     private PreferenceConfig preferenceConfig;
-    private int epochChangeThreshold;
 
     public void setSuitorConfig(PersonConfig suitorConfig) { 
         this.suitorConfig = suitorConfig;
@@ -30,11 +30,12 @@ public class SimulationConfig {
         return this.preferenceConfig;
     }
 
-    public int getEpochChangeThreshold() { 
-        return this.epochChangeThreshold;
+    public void setStoppingConditionsConfig(StoppingConditionsConfig stoppingConditionsConfig) { 
+        this.stoppingConditionsConfig = stoppingConditionsConfig;
+    }
+    
+    public StoppingConditionsConfig getStoppingConditionsConfig() { 
+        return this.stoppingConditionsConfig;
     }
 
-    public void setEpochChangeThreshold(int epochChangeThreshold) { 
-        this.epochChangeThreshold = epochChangeThreshold;
-    }
 }

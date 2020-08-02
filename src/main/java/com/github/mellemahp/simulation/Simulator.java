@@ -18,10 +18,15 @@ public class Simulator {
     private PersonList<Suitee> suitees;
     private EventBus bus;
     private int epochChangeThreshold;
+    private int maxEpochs;
     
     public Simulator(SimulationConfig simulationConfig) {
         // Create new event bus
         this.bus = new EventBus();
+
+        // set simulation stopping conditions
+        this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig().getEpochChangeThreshold();
+        this.maxEpochs = simulationConfig.getStoppingConditionsConfig().getMaxEpochs();
 
         // Make distributions for Suitor, Suitee and Preference
         DistributionBuilder distributionBuilder = new DistributionBuilder();
@@ -36,9 +41,6 @@ public class Simulator {
             .with(simulationConfig.getPreferenceConfig().getDistribution())
             .build();
 
-        // Set number of epochs without change to stop simulation
-        this.epochChangeThreshold = simulationConfig.getEpochChangeThreshold();
-        
         // Build list of suitors and suitees
         this.suitors = new PersonList<>(
             simulationConfig.getSuitorConfig().getNumberOfPeople(),
@@ -60,15 +62,9 @@ public class Simulator {
     }
     
     public void run() {
-        System.out.println("Suitors:");
-        System.out.println(this.suitors);
-        System.out.println("Suitees:");
-        System.out.println(this.suitees);
-
         int epochs_without_change = 0;
-        while (epochs_without_change < this.epochChangeThreshold) {
+        while (epochs_without_change < this.epochChangeThreshold && bus.getCurrentEpoch() < this.maxEpochs) {
             this.suitors.forEach(suitor -> suitor.propose(bus));
-            System.out.println(bus.count_events_current_epoch(Event.NEW_PARTNER));
             if (bus.count_events_current_epoch(Event.NEW_PARTNER) != 0) { 
                 epochs_without_change = 0;
             } else { 
