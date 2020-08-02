@@ -65,7 +65,6 @@ public class Person {
             Person preferredPartner = this.preferenceRanking.getPerson(i);
 
             // Ranking preferredPartner's partner
-
             int rankPartnerOfPreferredPartner = preferredPartner.getPreferenceIndex();
 
             // Ranking of this Person in preferredPartner's preference ranking

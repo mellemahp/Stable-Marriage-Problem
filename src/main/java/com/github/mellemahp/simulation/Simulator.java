@@ -1,17 +1,15 @@
 package com.github.mellemahp.simulation;
 
+import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.person.Person;
 import com.github.mellemahp.person.PersonList;
-import com.github.mellemahp.person.PreferenceRanking;
 import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
 
 import org.apache.commons.math3.distribution.RealDistribution;
-
-import com.github.mellemahp.configuration.SimulationConfig;
 
 public class Simulator {
     private PersonList<Suitor> suitors;
