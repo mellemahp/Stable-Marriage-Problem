@@ -63,36 +63,19 @@ public class Person {
         for (int i = 0; i < indexBound; i++) { 
             Person preferedPartner = this.preferenceRanking.getPerson(i);
             
+            // Rank of the preferred partner's partner
             int prefPartnerIndexBound = (preferedPartner.currentPartner != null)
                 ? preferedPartner.getPreferenceIndex() 
                 : preferedPartner.getPreferenceListSize();
+            
+            // Rank of this in the partner's preference list
+            int prefPartnerThisPersonRank = preferedPartner.preferenceRanking.getPreferenceIndexOfPerson(this);
 
-            for (int j = 0; j < prefPartnerIndexBound; j++) {
-                int rankingInPrefPartnerPrefList = preferedPartner.preferenceRanking.getPreferenceIndexOfPerson(this);
-                if (rankingInPrefPartnerPrefList < prefPartnerIndexBound) { 
-                    return true;
-                }
+            if (prefPartnerThisPersonRank < prefPartnerIndexBound) {
+                return true;
             }
         }
 
         return false;
-
-        // Iterate over all possible partners that are higher up in the preference ranking
-/*         for (int i = 0; i < this.preferenceIndex; i++) {
-            Person preferredPartner = this.preferenceRanking.getPerson(i);
-
-            // Ranking preferredPartner's partner
-            int rankPartnerOfPreferredPartner = preferredPartner.getPreferenceIndex();
-
-            // Ranking of this Person in preferredPartner's preference ranking
-            int rankThisPerson = preferredPartner.preferenceRanking.getPreferenceIndexOfPerson(this);
-            
-            if (rankThisPerson < rankPartnerOfPreferredPartner) {
-                // The preferredPartner also would rather be with this Person
-                return true;
-            }
-        } */
-
-        //return false;
     }
 }

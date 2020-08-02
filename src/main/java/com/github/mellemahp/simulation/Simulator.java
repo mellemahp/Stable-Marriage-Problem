@@ -77,7 +77,6 @@ public class Simulator {
         System.out.println("=====================================");
         System.out.println("Stable configuration: " + isStablePairing());
         System.out.println("=====================================");
-        //printResults();
     }
 
     public boolean isStablePairing() {
@@ -98,7 +97,7 @@ public class Simulator {
             System.out.println(String.format("%s -> %s", suitor, suitee));
             System.out.println(suitor.getPreferenceRankingString());
         });
-        System.out.println("*************");
+        System.out.println("*********");
         this.suitees.forEach(suitee -> {
             Person suitor = suitee.getCurrentPartner();
             System.out.println(String.format("%s -> %s", suitee, suitor));
