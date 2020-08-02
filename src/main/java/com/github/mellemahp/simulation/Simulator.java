@@ -87,7 +87,6 @@ public class Simulator {
                 return false;
             }
         }
-
         return true;
     }
 

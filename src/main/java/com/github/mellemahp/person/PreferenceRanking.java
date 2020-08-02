@@ -59,4 +59,8 @@ public class PreferenceRanking {
             .collect(Collectors.joining(", ")) + "]";
     }
 
+    public int size() {
+        return this.preferenceList.size();
+    }
+
 }

@@ -1,5 +1,8 @@
 package com.github.mellemahp.person;
 
+import java.lang.StackWalker.Option;
+import java.util.Optional;
+
 import org.apache.commons.math3.distribution.RealDistribution;
 
 public class Person {
@@ -48,20 +51,34 @@ public class Person {
         return this.preferenceRanking.toString();
     }
 
-    public boolean hasBetterPartnerOption() {
-        if (this.currentPartner == null) {
-            // TODO: Need to check if all potential partners have no currentPartner
-            //
-            // If at least one potential partner has no current partner,
-            // then return true
-            // else, return false
-            // For now, it's safe to return true for the stable marriage problem
+    public int getPreferenceListSize() { 
+        return this.preferenceRanking.size();
+    }
 
-            return true;
+    public boolean hasBetterPartnerOption() {
+        int indexBound = (this.currentPartner != null)
+            ? this.getPreferenceIndex() 
+            : this.getPreferenceListSize();
+
+        for (int i = 0; i < indexBound; i++) { 
+            Person preferedPartner = this.preferenceRanking.getPerson(i);
+            
+            int prefPartnerIndexBound = (preferedPartner.currentPartner != null)
+                ? preferedPartner.getPreferenceIndex() 
+                : preferedPartner.getPreferenceListSize();
+
+            for (int j = 0; j < prefPartnerIndexBound; j++) {
+                int rankingInPrefPartnerPrefList = preferedPartner.preferenceRanking.getPreferenceIndexOfPerson(this);
+                if (rankingInPrefPartnerPrefList < prefPartnerIndexBound) { 
+                    return true;
+                }
+            }
         }
 
+        return false;
+
         // Iterate over all possible partners that are higher up in the preference ranking
-        for (int i = 0; i < this.preferenceIndex; i++) {
+/*         for (int i = 0; i < this.preferenceIndex; i++) {
             Person preferredPartner = this.preferenceRanking.getPerson(i);
 
             // Ranking preferredPartner's partner
@@ -74,8 +91,8 @@ public class Person {
                 // The preferredPartner also would rather be with this Person
                 return true;
             }
-        }
+        } */
 
-        return false;
+        //return false;
     }
 }
