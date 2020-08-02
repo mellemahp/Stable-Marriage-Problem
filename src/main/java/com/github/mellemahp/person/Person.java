@@ -1,8 +1,5 @@
 package com.github.mellemahp.person;
 
-import java.lang.StackWalker.Option;
-import java.util.Optional;
-
 import org.apache.commons.math3.distribution.RealDistribution;
 
 public class Person {

@@ -15,14 +15,11 @@ public class Suitor extends Person {
             Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
             ProposalAnswer answer = currentSuitee.reviewProposal(this);
             
-            switch (answer) {
-                case ACCEPT:
-                    bus.put_event(Event.NEW_PARTNER);
-                    this.currentPartner = currentSuitee;
-                    break;
-                case REJECT:
-                    this.preferenceIndex++;
-                    break;
+            if (answer == ProposalAnswer.ACCEPT) {
+                bus.putEvent(Event.NEW_PARTNER);
+                this.currentPartner = currentSuitee;
+            } else {
+                this.preferenceIndex++;
             }
         }        
     }

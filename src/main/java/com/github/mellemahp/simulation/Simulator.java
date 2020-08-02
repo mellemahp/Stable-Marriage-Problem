@@ -62,21 +62,22 @@ public class Simulator {
     }
     
     public void run() {
-        int epochs_without_change = 0;
-        while (epochs_without_change < this.epochChangeThreshold && bus.getCurrentEpoch() < this.maxEpochs) {
+        int epochsWithoutChange = 0;
+        while (epochsWithoutChange < this.epochChangeThreshold && bus.getCurrentEpoch() < this.maxEpochs) {
             this.suitors.forEach(suitor -> suitor.propose(bus));
-            if (bus.count_events_current_epoch(Event.NEW_PARTNER) != 0) { 
-                epochs_without_change = 0;
+            if (bus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) { 
+                epochsWithoutChange = 0;
             } else { 
-                epochs_without_change++;
+                epochsWithoutChange++;
             }
-            bus.increment_epoch();
+            bus.incrementEpoch();
         }
-        System.out.println("=====================================");
+        String longSep = "=====================================";
+        System.out.println(longSep);
         System.out.println("Completed in " + bus.getCurrentEpoch() + " epochs.");
-        System.out.println("=====================================");
+        System.out.println(longSep);
         System.out.println("Stable configuration: " + isStablePairing());
-        System.out.println("=====================================");
+        System.out.println(longSep);
     }
 
     public boolean isStablePairing() {

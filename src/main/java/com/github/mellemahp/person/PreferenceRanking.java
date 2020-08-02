@@ -52,8 +52,8 @@ public class PreferenceRanking {
     public String toString() {
         return "[" + this.preferenceList
             .stream()
-            .map(preference -> preference.getPerson())
-            .map(person -> person.hashCode())
+            .map(Preference::getPerson)
+            .map(Person::hashCode)
             .map(String::valueOf)
             .map(s -> s.substring(0, 4))
             .collect(Collectors.joining(", ")) + "]";

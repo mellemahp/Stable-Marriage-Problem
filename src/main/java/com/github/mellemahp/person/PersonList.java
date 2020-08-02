@@ -23,7 +23,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
     }
     
     public void build() {
-        List<T> listOfPersons = new ArrayList<>();
+        List<T> listOfPersonsTemp = new ArrayList<>();
 
         for (int i = 0; i < this.numberOfPersons; i++) {
             double score = this.objectiveAttractivenessDistribution.sample();
@@ -34,7 +34,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
             );
         }
 
-        this.listOfPersons = listOfPersons;
+        this.listOfPersons = listOfPersonsTemp;
     }
 
     public PersonList<T> with(PersonSupplier<T> personSupplier) {
@@ -60,7 +60,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
     public String toString() {
         return this.listOfPersons
             .stream()
-            .map(suitor -> suitor.hashCode())
+            .map(Person::hashCode)
             .map(String::valueOf)
             .map(s -> s.substring(0, 4))
             .collect(Collectors.joining(" | "));

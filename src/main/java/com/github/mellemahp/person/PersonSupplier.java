@@ -17,6 +17,4 @@ public abstract class PersonSupplier<T extends Person> implements Supplier<T> {
         this.preferenceDistribution = preferenceDistribution;
         return this;
     }
-
-    public abstract T get();
 }

@@ -15,26 +15,26 @@ public class EventBus {
         this.currentEpoch = 0;
     }
 
-    public int count_events_current_epoch(Event event) { 
-        return count_events(event, this.currentEpoch);
+    public int countEventsCurrentEpoch(Event event) { 
+        return countEvents(event, this.currentEpoch);
     }
 
-    public int count_events(Event event, int epoch) {
+    public int countEvents(Event event, int epoch) {
         return (int) this.eventsEpochMap.get(epoch)
             .stream()
             .filter(e -> e == event)
             .count();
     }
 
-    public void increment_epoch() { 
+    public void incrementEpoch() { 
         this.currentEpoch++;
         this.eventsEpochMap.put(
             this.currentEpoch, 
-            new ArrayList<Event>()
+            new ArrayList<>()
         );
     }
 
-    public void put_event(Event event) {
+    public void putEvent(Event event) {
         this.eventsEpochMap.get(this.currentEpoch).add(event);
     }
 
