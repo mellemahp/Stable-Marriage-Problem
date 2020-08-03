@@ -27,7 +27,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
 
         for (int i = 0; i < this.numberOfPersons; i++) {
             double score = this.objectiveAttractivenessDistribution.sample();
-            listOfPersons.add(
+            listOfPersonsTemp.add(
                 this.personSupplier.setScore(score)
                     .setPreferenceDistribution(preferenceDistribution)
                     .get()
