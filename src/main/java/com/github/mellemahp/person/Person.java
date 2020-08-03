@@ -37,9 +37,17 @@ public class Person {
 
     protected void breakUp() {
         if (this.currentPartner != null) {
-            this.currentPartner.currentPartner = null;
-            this.currentPartner = null;
+            this.currentPartner.endRelationshipWith(this);
+            this.endRelationshipWith(this.currentPartner);
         }
+    } 
+
+    protected void endRelationshipWith(Person person) {
+        if (!person.equals(this.currentPartner)) {
+            throw new IllegalArgumentException(String.format("%s is not the current partner", person));
+        }
+
+        this.currentPartner = null;
     }
 
     @Override
