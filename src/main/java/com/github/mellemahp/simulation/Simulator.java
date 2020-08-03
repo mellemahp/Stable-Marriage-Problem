@@ -1,5 +1,11 @@
 package com.github.mellemahp.simulation;
 
+import java.util.Date;
+import java.util.StringJoiner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
@@ -10,10 +16,31 @@ import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
-
 import org.apache.commons.math3.distribution.RealDistribution;
 
+
 public class Simulator {
+    private static Logger log = null;
+    static {
+        log = Logger.getLogger(SimulationRunner.class.getSimpleName());
+        log.setUseParentHandlers(false);
+
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new SimpleFormatter() {
+            private static final String format = "[%1$tF %1$tT] [%2$-5s] %3$s %n";
+
+            @Override
+            public synchronized String format(LogRecord lr) {
+                return String.format(format,
+                    new Date(lr.getMillis()),
+                    lr.getLevel().getLocalizedName(),
+                    lr.getMessage()
+                );
+            }
+        });
+        log.addHandler(handler);
+    }
+
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
     private EventBus bus;
@@ -76,11 +103,17 @@ public class Simulator {
             bus.incrementEpoch();
         }
         String longSep = "=====================================";
-        System.out.println(longSep);
-        System.out.println("Completed in " + bus.getCurrentEpoch() + " epochs.");
-        System.out.println(longSep);
-        System.out.println("Stable configuration: " + isStablePairing());
-        System.out.println(longSep);
+
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        stringJoiner.add("");
+        stringJoiner.add(longSep);
+        stringJoiner.add("Completed in " + bus.getCurrentEpoch() + " epochs.");
+        stringJoiner.add(longSep);
+        stringJoiner.add("Stable configuration: " + isStablePairing());
+        stringJoiner.add(longSep);
+
+        String logStatement = stringJoiner.toString();
+        log.info(logStatement);
     }
 
     public boolean isStablePairing() {
@@ -94,18 +127,17 @@ public class Simulator {
     }
 
     public void printResults() {
-        // TODO: this is placeholder. Please write better way to report data
-        System.out.println("+++++++++++++++++++++");
+        log.info("+++++++++++++++++++++");
         this.suitors.forEach(suitor -> {
             Person suitee = suitor.getCurrentPartner();
-            System.out.println(String.format("%s -> %s", suitor, suitee));
-            System.out.println(suitor.getPreferenceRankingString());
+            log.info(String.format("%s -> %s", suitor, suitee));
+            log.info(suitor.getPreferenceRankingString());
         });
-        System.out.println("*********");
+        log.info("*********");
         this.suitees.forEach(suitee -> {
             Person suitor = suitee.getCurrentPartner();
-            System.out.println(String.format("%s -> %s", suitee, suitor));
-            System.out.println(suitee.getPreferenceRankingString());
+            log.info(String.format("%s -> %s", suitee, suitor));
+            log.info(suitee.getPreferenceRankingString());
         });
     }
 }

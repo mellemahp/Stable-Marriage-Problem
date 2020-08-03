@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 import com.github.mellemahp.configuration.SimulationConfig;
-
 import org.yaml.snakeyaml.Yaml;
 
 public class SimulationRunner {
