@@ -1,13 +1,10 @@
 package com.github.mellemahp.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class PreferenceConfig {
+    @Getter
+    @Setter
     private DistributionConfig distribution;
-
-    public DistributionConfig getDistribution() {
-        return this.distribution;
-    }
-
-    public void setDistribution(DistributionConfig distribution) {
-        this.distribution = distribution;
-    }
 }

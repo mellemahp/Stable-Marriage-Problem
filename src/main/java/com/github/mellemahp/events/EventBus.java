@@ -1,17 +1,20 @@
 package com.github.mellemahp.events;
 
 import java.util.Map;
+
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class EventBus {
-    private Map<Integer, List<Event>> eventsEpochMap;
+    private final Map<Integer, List<Event>> eventsEpochMap = new HashMap<>();
+    @Getter
     private int currentEpoch;
 
     public EventBus() {
-        this.eventsEpochMap = new HashMap<>();
-        this.eventsEpochMap.put(0, new ArrayList<>());
+        eventsEpochMap.put(0, new ArrayList<>());
         this.currentEpoch = 0;
     }
 
@@ -35,9 +38,5 @@ public class EventBus {
 
     public void putEvent(Event event) {
         this.eventsEpochMap.get(this.currentEpoch).add(event);
-    }
-
-    public int getCurrentEpoch() {
-        return this.currentEpoch;
     }
 }

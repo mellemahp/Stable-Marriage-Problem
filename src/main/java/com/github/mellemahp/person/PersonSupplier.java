@@ -8,12 +8,12 @@ public abstract class PersonSupplier<T extends Person> implements Supplier<T> {
     protected double score;
     protected RealDistribution preferenceDistribution;
 
-    public PersonSupplier<T> setScore(double score) {
+    public PersonSupplier<T> withScore(double score) {
         this.score = score;
         return this;
     }
 
-    public PersonSupplier<T> setPreferenceDistribution(RealDistribution preferenceDistribution) {
+    public PersonSupplier<T> withPreferenceDistribution(RealDistribution preferenceDistribution) {
         this.preferenceDistribution = preferenceDistribution;
         return this;
     }

@@ -1,41 +1,19 @@
 package com.github.mellemahp.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SimulationConfig {
+    @Getter
+    @Setter
     private StoppingConditionsConfig stoppingConditionsConfig;
+    @Getter
+    @Setter
     private PersonConfig suitorConfig;
+    @Getter
+    @Setter
     private PersonConfig suiteeConfig;
+    @Getter
+    @Setter
     private PreferenceConfig preferenceConfig;
-
-    public void setSuitorConfig(PersonConfig suitorConfig) {
-        this.suitorConfig = suitorConfig;
-    }
-
-    public PersonConfig getSuitorConfig() {
-        return this.suitorConfig;
-    }
-
-    public void setSuiteeConfig(PersonConfig suiteeConfig) {
-        this.suiteeConfig = suiteeConfig;
-    }
-
-    public PersonConfig getSuiteeConfig() {
-        return this.suiteeConfig;
-    }
-
-    public void setPreferenceConfig(PreferenceConfig preferenceConfig) {
-        this.preferenceConfig = preferenceConfig;
-    }
-
-    public PreferenceConfig getPreferenceConfig() {
-        return this.preferenceConfig;
-    }
-
-    public void setStoppingConditionsConfig(StoppingConditionsConfig stoppingConditionsConfig) {
-        this.stoppingConditionsConfig = stoppingConditionsConfig;
-    }
-
-    public StoppingConditionsConfig getStoppingConditionsConfig() {
-        return this.stoppingConditionsConfig;
-    }
-
 }

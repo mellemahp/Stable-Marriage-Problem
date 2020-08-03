@@ -26,11 +26,11 @@ public class Simulator {
 
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(new SimpleFormatter() {
-            private static final String format = "[%1$tF %1$tT] [%2$-5s] %3$s %n";
+            private static final String FORMAT = "[%1$tF %1$tT] [%2$-5s] %3$s %n";
 
             @Override
             public synchronized String format(LogRecord lr) {
-                return String.format(format,
+                return String.format(FORMAT,
                         new Date(lr.getMillis()),
                         lr.getLevel().getLocalizedName(),
                         lr.getMessage());
@@ -39,16 +39,13 @@ public class Simulator {
         log.addHandler(handler);
     }
 
+    private final EventBus bus = new EventBus();
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
-    private EventBus bus;
     private int epochChangeThreshold;
     private int maxEpochs;
 
     public Simulator(SimulationConfig simulationConfig) {
-        // Create new event bus
-        this.bus = new EventBus();
-
         // set simulation stopping conditions
         this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig()
                 .getEpochChangeThreshold();
@@ -73,15 +70,13 @@ public class Simulator {
                 simulationConfig.getSuitorConfig().getNumberOfPeople(),
                 suitorDistribution,
                 preferenceDistribution);
-        this.suitors.with(new SuitorSupplier())
-                .build();
+        this.suitors.with(new SuitorSupplier()).build();
 
         this.suitees = new PersonList<>(
                 simulationConfig.getSuiteeConfig().getNumberOfPeople(),
                 suiteeDistribution,
                 preferenceDistribution);
-        this.suitees.with(new SuiteeSupplier())
-                .build();
+        this.suitees.with(new SuiteeSupplier()).build();
 
         // Initialize preference rankings for suitors and suitees
         this.suitors.initializePreferenceList(this.suitees);

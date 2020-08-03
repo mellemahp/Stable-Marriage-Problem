@@ -2,37 +2,30 @@ package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.Getter;
+
 public class Person {
-    protected Person currentPartner;
-    protected PreferenceRanking preferenceRanking;
+    @Getter
+    protected final PreferenceRanking preferenceRanking = new PreferenceRanking();
+    @Getter
     protected int preferenceIndex = 0;
+    @Getter
+    protected Person currentPartner;
+    @Getter
     protected double objectiveAttractivenessScore;
     protected RealDistribution preferenceDistribution;
 
     public Person(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
         this.objectiveAttractivenessScore = objectiveAttractivenessScore;
         this.preferenceDistribution = preferenceDistribution;
-        this.preferenceRanking = new PreferenceRanking();
-    }
-
-    public PreferenceRanking getPeferenceRanking() {
-        return this.preferenceRanking;
-    }
-
-    public int getPreferenceIndex() {
-        return this.preferenceIndex;
     }
 
     public <T extends Person> void initializePreferences(PersonList<T> personList) {
         for (T person : personList) {
             double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
-            this.preferenceRanking.add(
+            preferenceRanking.add(
                     new Preference(person, firstImpressionScore));
         }
-    }
-
-    public Person getCurrentPartner() {
-        return this.currentPartner;
     }
 
     protected void breakUp() {
@@ -40,7 +33,7 @@ public class Person {
             this.currentPartner.endRelationshipWith(this);
             this.endRelationshipWith(this.currentPartner);
         }
-    } 
+    }
 
     protected void endRelationshipWith(Person person) {
         if (!person.equals(this.currentPartner)) {

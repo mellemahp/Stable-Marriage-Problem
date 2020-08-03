@@ -4,23 +4,14 @@ import com.github.mellemahp.distribution.DistributionType;
 
 import java.util.Map;
 
+import lombok.Setter;
+import lombok.Getter;
+
 public class DistributionConfig {
+    @Getter
+    @Setter
     private DistributionType distributionType;
+    @Getter
+    @Setter
     private Map<String, Double> properties;
-
-    public DistributionType getDistributionType() {
-        return this.distributionType;
-    }
-
-    public void setDistributionType(DistributionType distributionType) {
-        this.distributionType = distributionType;
-    }
-
-    public Map<String, Double> getProperties() {
-        return this.properties;
-    }
-
-    public void setProperties(Map<String, Double> properties) {
-        this.properties = properties;
-    }
 }

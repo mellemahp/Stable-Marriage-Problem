@@ -1,22 +1,13 @@
 package com.github.mellemahp.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class PersonConfig {
+    @Getter
+    @Setter
     private int numberOfPeople;
+    @Getter
+    @Setter
     private DistributionConfig distribution;
-
-    public int getNumberOfPeople() {
-        return this.numberOfPeople;
-    }
-
-    public void setNumberOfPeople(int numberOfPeople) {
-        this.numberOfPeople = numberOfPeople;
-    }
-
-    public DistributionConfig getDistribution() {
-        return this.distribution;
-    }
-
-    public void setDistribution(DistributionConfig distribution) {
-        this.distribution = distribution;
-    }
 }
