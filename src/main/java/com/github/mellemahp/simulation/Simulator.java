@@ -18,7 +18,6 @@ import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
 import org.apache.commons.math3.distribution.RealDistribution;
 
-
 public class Simulator {
     private static Logger log = null;
     static {
@@ -32,10 +31,9 @@ public class Simulator {
             @Override
             public synchronized String format(LogRecord lr) {
                 return String.format(format,
-                    new Date(lr.getMillis()),
-                    lr.getLevel().getLocalizedName(),
-                    lr.getMessage()
-                );
+                        new Date(lr.getMillis()),
+                        lr.getLevel().getLocalizedName(),
+                        lr.getMessage());
             }
         });
         log.addHandler(handler);
