@@ -7,6 +7,11 @@ public class Suitee extends Person {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }
 
+    
+    /** Reviews the Suitor who is proposing and send them a response
+     * @param newSuitor
+     * @return ProposalAnswer
+     */
     public ProposalAnswer reviewProposal(Suitor newSuitor) {
         if (newSuitorHasHigherPreferenceRanking(newSuitor)) {
             this.breakUp();
@@ -17,6 +22,11 @@ public class Suitee extends Person {
         return ProposalAnswer.REJECT;
     }
 
+    
+    /** Check if new suitor is a better match than current suitor
+     * @param newSuitor
+     * @return boolean
+     */
     private boolean newSuitorHasHigherPreferenceRanking(Suitor newSuitor) {
         if (this.currentPartner == null) {
             return true;

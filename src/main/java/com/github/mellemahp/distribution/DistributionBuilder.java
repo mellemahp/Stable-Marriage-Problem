@@ -14,11 +14,20 @@ public class DistributionBuilder {
     private final RandomGenerator randomGenerator = new JDKRandomGenerator();
     private DistributionConfig distributionConfig;
 
+    
+    /** Sets distribution config to use for constructing distributions
+     * @param distributionConfig
+     * @return DistributionBuilder
+     */
     public DistributionBuilder with(DistributionConfig distributionConfig) {
         this.distributionConfig = distributionConfig;
         return this;
     }
 
+    
+    /** Builds a new distribution
+     * @return RealDistribution
+     */
     public RealDistribution build() {
         RealDistribution realDistribution = null;
 

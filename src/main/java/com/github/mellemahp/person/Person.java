@@ -25,6 +25,11 @@ public class Person {
         this.preferenceDistribution = preferenceDistribution;
     }
 
+    
+    /** Initializes the preferences for a person based on a list of Suitors or Suitees
+     *  
+     * @param personList
+     */
     public <T extends Person> void initializePreferences(PersonList<T> personList) {
         for (T person : personList) {
             double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
@@ -40,6 +45,12 @@ public class Person {
         }
     }
 
+    
+    /** Causes a person to end their relationship with another person if they are the currently partners
+     * 
+     * @param person person to end relationship with
+     * @exception IllegalArgumentException person to break up with does not match current partner
+     */
     protected void endRelationshipWith(Person person) {
         if (!person.equals(this.currentPartner)) {
             throw new IllegalArgumentException(String.format("%s is not the current partner", person));
@@ -61,6 +72,12 @@ public class Person {
         return this.preferenceRanking.size();
     }
 
+    
+    /** Checks to see if there are any people in the current preference list who would be a better
+     *  match than the current partner
+     * 
+     * @return boolean
+     */
     public boolean hasBetterPartnerOption() {
         int indexBound = (this.currentPartner != null)
                 ? this.getPreferenceIndex()

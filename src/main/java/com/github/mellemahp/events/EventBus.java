@@ -18,10 +18,25 @@ public class EventBus {
         this.currentEpoch = 0;
     }
 
+    
+    /** Count the number of instances of the specified type are in the current epoch 
+     *  event queue
+     * 
+     * @param event
+     * @return int
+     */
     public int countEventsCurrentEpoch(Event event) {
         return countEvents(event, this.currentEpoch);
     }
 
+    
+    /** Count the number of instances of the specified type are in the specified
+     *  epochs event queue
+     * 
+     * @param event
+     * @param epoch
+     * @return int
+     */
     public int countEvents(Event event, int epoch) {
         return (int) this.eventsEpochMap.get(epoch)
                 .stream()
@@ -36,6 +51,10 @@ public class EventBus {
                 new ArrayList<>());
     }
 
+    
+    /** Adds a new event to the current epoch's event queue
+     * @param event
+     */
     public void putEvent(Event event) {
         this.eventsEpochMap.get(this.currentEpoch).add(event);
     }
