@@ -2,17 +2,22 @@ package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode
 public class Person {
     @Getter
     protected final PreferenceRanking preferenceRanking = new PreferenceRanking();
     @Getter
+    @EqualsAndHashCode.Exclude
     protected int preferenceIndex = 0;
     @Getter
+    @EqualsAndHashCode.Exclude
     protected Person currentPartner;
     @Getter
     protected double objectiveAttractivenessScore;
+    @EqualsAndHashCode.Exclude
     protected RealDistribution preferenceDistribution;
 
     public Person(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
