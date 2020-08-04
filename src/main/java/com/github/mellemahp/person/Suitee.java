@@ -5,7 +5,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 import lombok.NonNull;
 
 public class Suitee extends Person {
-    public Suitee(@NonNull double objectiveAttractivenessScore,
+    public Suitee(double objectiveAttractivenessScore,
             @NonNull RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }

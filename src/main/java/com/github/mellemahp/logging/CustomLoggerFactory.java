@@ -9,6 +9,11 @@ import java.util.logging.SimpleFormatter;
 import lombok.NonNull;
 
 public class CustomLoggerFactory {
+    
+    private CustomLoggerFactory() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Logger createLogger(@NonNull String name) {
         Logger logger = Logger.getLogger(name);
         logger.setUseParentHandlers(false);

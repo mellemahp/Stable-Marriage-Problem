@@ -11,13 +11,12 @@ public class Preference {
     private Person person;
     private final List<Double> preferenceScore = new ArrayList<>();
 
-    public Preference(@NonNull Person person,
-            @NonNull double firstImpressionScore) {
+    public Preference(@NonNull Person person, double firstImpressionScore) {
         this.person = person;
         this.preferenceScore.add(firstImpressionScore);
     }
 
-    public double getPreferenceScore(@NonNull int index) {
+    public double getPreferenceScore(int index) {
         return this.preferenceScore.get(index);
     }
 }

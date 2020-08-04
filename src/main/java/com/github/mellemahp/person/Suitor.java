@@ -8,7 +8,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 import lombok.NonNull;
 
 public class Suitor extends Person {
-    public Suitor(@NonNull double objectiveAttractivenessScore,
+    public Suitor(double objectiveAttractivenessScore,
             @NonNull RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }

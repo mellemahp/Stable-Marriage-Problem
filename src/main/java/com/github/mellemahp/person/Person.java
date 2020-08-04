@@ -21,7 +21,7 @@ public class Person {
     @EqualsAndHashCode.Exclude
     protected RealDistribution preferenceDistribution;
 
-    public Person(@NonNull double objectiveAttractivenessScore,
+    public Person(double objectiveAttractivenessScore,
                   @NonNull RealDistribution preferenceDistribution) {
         this.objectiveAttractivenessScore = objectiveAttractivenessScore;
         this.preferenceDistribution = preferenceDistribution;

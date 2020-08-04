@@ -10,7 +10,7 @@ public abstract class PersonSupplier<T extends Person> implements Supplier<T> {
     protected double score;
     protected RealDistribution preferenceDistribution;
 
-    public PersonSupplier<T> withScore(@NonNull double score) {
+    public PersonSupplier<T> withScore(double score) {
         this.score = score;
         return this;
     }

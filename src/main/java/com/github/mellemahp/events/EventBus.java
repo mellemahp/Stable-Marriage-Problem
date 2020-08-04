@@ -38,8 +38,7 @@ public class EventBus {
      * @param epoch
      * @return int
      */
-    public int countEvents(@NonNull Event event,
-            @NonNull int epoch) {
+    public int countEvents(@NonNull Event event, int epoch) {
         return (int) this.eventsEpochMap.get(epoch)
                 .stream()
                 .filter(e -> e == event)

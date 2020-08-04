@@ -1,11 +1,7 @@
 package com.github.mellemahp.simulation;
 
-import java.util.Date;
 import java.util.StringJoiner;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
@@ -20,7 +16,6 @@ import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.CustomLog;
 import lombok.NonNull;
-import lombok.extern.java.Log;
 
 @CustomLog
 public class Simulator {

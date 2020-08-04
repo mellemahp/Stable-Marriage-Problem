@@ -16,7 +16,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
     private PersonSupplier<T> personSupplier;
     private List<T> listOfPersons;
 
-    public PersonList(@NonNull int numberOfPersons,
+    public PersonList(int numberOfPersons,
             @NonNull RealDistribution objectiveAttractivenessDistribution,
             @NonNull RealDistribution preferenceDistribution) {
         this.numberOfPersons = numberOfPersons;

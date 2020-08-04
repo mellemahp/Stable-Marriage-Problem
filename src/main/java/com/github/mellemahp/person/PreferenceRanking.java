@@ -36,7 +36,7 @@ public class PreferenceRanking {
         return this.preferenceMap.get(person).getPreferenceScore(0);
     }
 
-    public Person getPerson(@NonNull int index) {
+    public Person getPerson(int index) {
         return this.preferenceList.get(index).getPerson();
     }
 
