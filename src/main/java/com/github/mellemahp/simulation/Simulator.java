@@ -18,27 +18,11 @@ import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.CustomLog;
+import lombok.extern.java.Log;
+
+@CustomLog
 public class Simulator {
-    private static Logger log = null;
-    static {
-        log = Logger.getLogger(SimulationRunner.class.getSimpleName());
-        log.setUseParentHandlers(false);
-
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(new SimpleFormatter() {
-            private static final String FORMAT = "[%1$tF %1$tT] [%2$-5s] %3$s %n";
-
-            @Override
-            public synchronized String format(LogRecord lr) {
-                return String.format(FORMAT,
-                        new Date(lr.getMillis()),
-                        lr.getLevel().getLocalizedName(),
-                        lr.getMessage());
-            }
-        });
-        log.addHandler(handler);
-    }
-
     private final EventBus bus = new EventBus();
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
