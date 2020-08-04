@@ -6,8 +6,10 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import lombok.NonNull;
+
 public class CustomLoggerFactory {
-    public static Logger createLogger(String name) {
+    public static Logger createLogger(@NonNull String name) {
         Logger logger = Logger.getLogger(name);
         logger.setUseParentHandlers(false);
 

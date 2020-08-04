@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.NonNull;
+
 public class PersonList<T extends Person> implements Iterable<T> {
     private int numberOfPersons;
     private RealDistribution objectiveAttractivenessDistribution;
@@ -14,8 +16,9 @@ public class PersonList<T extends Person> implements Iterable<T> {
     private PersonSupplier<T> personSupplier;
     private List<T> listOfPersons;
 
-    public PersonList(int numberOfPersons, RealDistribution objectiveAttractivenessDistribution,
-            RealDistribution preferenceDistribution) {
+    public PersonList(@NonNull int numberOfPersons,
+            @NonNull RealDistribution objectiveAttractivenessDistribution,
+            @NonNull RealDistribution preferenceDistribution) {
         this.numberOfPersons = numberOfPersons;
         this.objectiveAttractivenessDistribution = objectiveAttractivenessDistribution;
         this.preferenceDistribution = preferenceDistribution;
@@ -27,16 +30,15 @@ public class PersonList<T extends Person> implements Iterable<T> {
         for (int i = 0; i < this.numberOfPersons; i++) {
             double score = this.objectiveAttractivenessDistribution.sample();
             listOfPersonsTemp.add(
-                this.personSupplier.withScore(score)
-                    .withPreferenceDistribution(preferenceDistribution)
-                    .get()
-            );
+                    this.personSupplier.withScore(score)
+                            .withPreferenceDistribution(preferenceDistribution)
+                            .get());
         }
 
         this.listOfPersons = listOfPersonsTemp;
     }
 
-    public PersonList<T> with(PersonSupplier<T> personSupplier) {
+    public PersonList<T> with(@NonNull PersonSupplier<T> personSupplier) {
         this.personSupplier = personSupplier;
         return this;
     }
@@ -46,7 +48,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
         return this.listOfPersons.iterator();
     }
 
-    public <E extends Person> void initializePreferenceList(PersonList<E> otherPersonList) {
+    public <E extends Person> void initializePreferenceList(@NonNull PersonList<E> otherPersonList) {
         this.forEach(person -> person.initializePreferences(otherPersonList));
     }
 

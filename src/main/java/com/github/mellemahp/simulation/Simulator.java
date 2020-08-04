@@ -19,6 +19,7 @@ import com.github.mellemahp.person.SuitorSupplier;
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.CustomLog;
+import lombok.NonNull;
 import lombok.extern.java.Log;
 
 @CustomLog
@@ -29,7 +30,7 @@ public class Simulator {
     private int epochChangeThreshold;
     private int maxEpochs;
 
-    public Simulator(SimulationConfig simulationConfig) {
+    public Simulator(@NonNull SimulationConfig simulationConfig) {
         // set simulation stopping conditions
         this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig()
                 .getEpochChangeThreshold();

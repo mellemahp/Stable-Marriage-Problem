@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.NonNull;
+
 public class PreferenceRanking {
     private List<Preference> preferenceList;
     private Map<Person, Preference> preferenceMap;
@@ -16,7 +18,7 @@ public class PreferenceRanking {
         this.preferenceMap = new HashMap<>();
     }
 
-    public void add(Preference preference) {
+    public void add(@NonNull Preference preference) {
         // Add to map
         this.preferenceMap.put(preference.getPerson(), preference);
 
@@ -30,15 +32,15 @@ public class PreferenceRanking {
         });
     }
 
-    public double getPreferenceScore(Person person) {
+    public double getPreferenceScore(@NonNull Person person) {
         return this.preferenceMap.get(person).getPreferenceScore(0);
     }
 
-    public Person getPerson(int index) {
+    public Person getPerson(@NonNull int index) {
         return this.preferenceList.get(index).getPerson();
     }
 
-    public int getPreferenceIndexOfPerson(Person person) {
+    public int getPreferenceIndexOfPerson(@NonNull Person person) {
         // NOTE: There is no equals implementation for Person, so it will use the memory
         // address when using equals. We will need to implement equals for the Person class.
         return IntStream.range(0, this.preferenceList.size())

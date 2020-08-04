@@ -5,12 +5,15 @@ import com.github.mellemahp.events.EventBus;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.NonNull;
+
 public class Suitor extends Person {
-    public Suitor(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
+    public Suitor(@NonNull double objectiveAttractivenessScore,
+            @NonNull RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }
 
-    public void propose(EventBus bus) {
+    public void propose(@NonNull EventBus bus) {
         if (this.currentPartner == null) {
             Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
             ProposalAnswer answer = currentSuitee.reviewProposal(this);

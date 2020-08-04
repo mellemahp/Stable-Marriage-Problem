@@ -4,6 +4,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 
 @EqualsAndHashCode
 public class Person {
@@ -20,17 +21,19 @@ public class Person {
     @EqualsAndHashCode.Exclude
     protected RealDistribution preferenceDistribution;
 
-    public Person(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
+    public Person(@NonNull double objectiveAttractivenessScore,
+                  @NonNull RealDistribution preferenceDistribution) {
         this.objectiveAttractivenessScore = objectiveAttractivenessScore;
         this.preferenceDistribution = preferenceDistribution;
     }
 
-    
-    /** Initializes the preferences for a person based on a list of Suitors or Suitees
-     *  
+    /**
+     * Initializes the preferences for a person based on a list of Suitors or
+     * Suitees
+     * 
      * @param personList
      */
-    public <T extends Person> void initializePreferences(PersonList<T> personList) {
+    public <T extends Person> void initializePreferences(@NonNull PersonList<T> personList) {
         for (T person : personList) {
             double firstImpressionScore = person.objectiveAttractivenessScore + this.preferenceDistribution.sample();
             preferenceRanking.add(
@@ -45,13 +48,15 @@ public class Person {
         }
     }
 
-    
-    /** Causes a person to end their relationship with another person if they are the currently partners
+    /**
+     * Causes a person to end their relationship with another person if they are the
+     * currently partners
      * 
      * @param person person to end relationship with
-     * @exception IllegalArgumentException person to break up with does not match current partner
+     * @exception IllegalArgumentException person to break up with does not match
+     *                                     current partner
      */
-    protected void endRelationshipWith(Person person) {
+    protected void endRelationshipWith(@NonNull Person person) {
         if (!person.equals(this.currentPartner)) {
             throw new IllegalArgumentException(String.format("%s is not the current partner", person));
         }
@@ -72,9 +77,9 @@ public class Person {
         return this.preferenceRanking.size();
     }
 
-    
-    /** Checks to see if there are any people in the current preference list who would be a better
-     *  match than the current partner
+    /**
+     * Checks to see if there are any people in the current preference list who
+     * would be a better match than the current partner
      * 
      * @return boolean
      */

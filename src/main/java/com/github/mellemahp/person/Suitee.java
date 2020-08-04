@@ -2,17 +2,21 @@ package com.github.mellemahp.person;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
+import lombok.NonNull;
+
 public class Suitee extends Person {
-    public Suitee(double objectiveAttractivenessScore, RealDistribution preferenceDistribution) {
+    public Suitee(@NonNull double objectiveAttractivenessScore,
+            @NonNull RealDistribution preferenceDistribution) {
         super(objectiveAttractivenessScore, preferenceDistribution);
     }
 
-    
-    /** Reviews the Suitor who is proposing and send them a response
+    /**
+     * Reviews the Suitor who is proposing and send them a response
+     * 
      * @param newSuitor
      * @return ProposalAnswer
      */
-    public ProposalAnswer reviewProposal(Suitor newSuitor) {
+    public ProposalAnswer reviewProposal(@NonNull Suitor newSuitor) {
         if (newSuitorHasHigherPreferenceRanking(newSuitor)) {
             this.breakUp();
             this.currentPartner = newSuitor;
@@ -22,12 +26,13 @@ public class Suitee extends Person {
         return ProposalAnswer.REJECT;
     }
 
-    
-    /** Check if new suitor is a better match than current suitor
+    /**
+     * Check if new suitor is a better match than current suitor
+     * 
      * @param newSuitor
      * @return boolean
      */
-    private boolean newSuitorHasHigherPreferenceRanking(Suitor newSuitor) {
+    private boolean newSuitorHasHigherPreferenceRanking(@NonNull Suitor newSuitor) {
         if (this.currentPartner == null) {
             return true;
         }
@@ -37,7 +42,7 @@ public class Suitee extends Person {
         return newSuitorScore > currentSuitorScore;
     }
 
-    public int getPreferenceIndex(Suitor suitor) {
+    public int getPreferenceIndex(@NonNull Suitor suitor) {
         int preferenceIndex = this.preferenceRanking.getPreferenceIndexOfPerson(suitor);
         if (preferenceIndex == -1) {
             throw new IndexOutOfBoundsException();
