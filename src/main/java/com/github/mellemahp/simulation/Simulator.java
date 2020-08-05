@@ -63,7 +63,7 @@ public class Simulator {
         this.suitees.initializePreferenceList(this.suitors);
     }
 
-    public void run() {
+    public int run() {
         int epochsWithoutChange = 0;
         while (epochsWithoutChange < this.epochChangeThreshold
                 && bus.getCurrentEpoch() < this.maxEpochs) {
@@ -87,6 +87,8 @@ public class Simulator {
 
         String logStatement = stringJoiner.toString();
         log.info(logStatement);
+
+        return 0;
     }
 
     public boolean isStablePairing() {
