@@ -2,32 +2,22 @@ package com.github.mellemahp.simulation;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
+
+import com.github.mellemahp.wrappers.ForkJoinScope;
 
 import lombok.CustomLog;
 
 @CustomLog
 public class SimulationRunner {
+    private static ForkJoinScope parallelScope = new ForkJoinScope(4);
+
     public static void runSimulations(List<Simulator> sims) {
         // Runs simulations in parallel
-        final int parallelism = 4;
-        ForkJoinPool forkJoinPool = null;
-        try {
-            forkJoinPool = new ForkJoinPool(parallelism);
-            forkJoinPool.submit(
-                    () -> sims.parallelStream()
-                            .map(Simulator::run)
-                            .collect(Collectors.toList()))
-                    .get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (forkJoinPool != null) {
-                forkJoinPool.shutdown();
-            }
-        }
+        parallelScope.runInScope(
+                () -> sims.parallelStream()
+                        .map(Simulator::run)
+                        .collect(Collectors.toList()));
     }
 
     public static void main(String[] args) {
