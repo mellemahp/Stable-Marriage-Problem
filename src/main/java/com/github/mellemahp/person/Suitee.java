@@ -1,37 +1,31 @@
 package com.github.mellemahp.person;
 
+import com.github.mellemahp.events.Event;
+import com.github.mellemahp.events.EventBus;
+
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.NonNull;
 
 public class Suitee extends Person {
     public Suitee(double objectiveAttractivenessScore,
-            @NonNull RealDistribution preferenceDistribution) {
-        super(objectiveAttractivenessScore, preferenceDistribution);
+            @NonNull RealDistribution preferenceDistribution,
+            @NonNull EventBus bus) {
+        super(objectiveAttractivenessScore, preferenceDistribution, bus);
     }
 
-    /**
-     * Reviews the Suitor who is proposing and send them a response
-     * 
-     * @param newSuitor
-     * @return ProposalAnswer
-     */
     public ProposalAnswer reviewProposal(@NonNull Suitor newSuitor) {
         if (newSuitorHasHigherPreferenceRanking(newSuitor)) {
             this.breakUp();
+            bus.putEvent(Event.NEW_PARTNER);
             this.currentPartner = newSuitor;
+
             return ProposalAnswer.ACCEPT;
         }
 
         return ProposalAnswer.REJECT;
     }
 
-    /**
-     * Check if new suitor is a better match than current suitor
-     * 
-     * @param newSuitor
-     * @return boolean
-     */
     private boolean newSuitorHasHigherPreferenceRanking(@NonNull Suitor newSuitor) {
         if (this.currentPartner == null) {
             return true;

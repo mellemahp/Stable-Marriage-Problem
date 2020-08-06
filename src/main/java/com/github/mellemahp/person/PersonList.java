@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.github.mellemahp.events.EventBus;
+
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.NonNull;
@@ -15,13 +17,16 @@ public class PersonList<T extends Person> implements Iterable<T> {
     private RealDistribution preferenceDistribution;
     private PersonSupplier<T> personSupplier;
     private List<T> listOfPersons;
+    private EventBus bus;
 
     public PersonList(int numberOfPersons,
             @NonNull RealDistribution objectiveAttractivenessDistribution,
-            @NonNull RealDistribution preferenceDistribution) {
+            @NonNull RealDistribution preferenceDistribution,
+            @NonNull EventBus bus) {
         this.numberOfPersons = numberOfPersons;
         this.objectiveAttractivenessDistribution = objectiveAttractivenessDistribution;
         this.preferenceDistribution = preferenceDistribution;
+        this.bus = bus;
     }
 
     public void build() {
@@ -31,7 +36,8 @@ public class PersonList<T extends Person> implements Iterable<T> {
             double score = this.objectiveAttractivenessDistribution.sample();
             listOfPersonsTemp.add(
                     this.personSupplier.withScore(score)
-                            .withPreferenceDistribution(preferenceDistribution)
+                            .withBus(this.bus)
+                            .withPreferenceDistribution(this.preferenceDistribution)
                             .get());
         }
 
@@ -58,7 +64,9 @@ public class PersonList<T extends Person> implements Iterable<T> {
 
     @Override
     public String toString() {
-        return this.listOfPersons.stream().map(Person::hashCode).map(String::valueOf)
+        return this.listOfPersons.stream()
+                .map(Person::hashCode)
+                .map(String::valueOf)
                 .map(s -> s.substring(0, 4)).collect(Collectors.joining(" | "));
     }
 }

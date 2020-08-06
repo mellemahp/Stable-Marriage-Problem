@@ -1,7 +1,7 @@
 ---
 stoppingConditionsConfig:
   maxEpochs: 500
-  epochChangeThreshold: 50
+  epochChangeThreshold: 5
 suitorConfig:
   numberOfPeople: 100
   distribution:

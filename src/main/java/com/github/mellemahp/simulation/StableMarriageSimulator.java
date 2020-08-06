@@ -48,13 +48,15 @@ public class StableMarriageSimulator extends Simulator {
         this.suitors = new PersonList<>(
                 simulationConfig.getSuitorConfig().getNumberOfPeople(),
                 suitorDistribution,
-                preferenceDistribution);
+                preferenceDistribution, 
+                bus);
         this.suitors.with(new SuitorSupplier()).build();
 
         this.suitees = new PersonList<>(
                 simulationConfig.getSuiteeConfig().getNumberOfPeople(),
                 suiteeDistribution,
-                preferenceDistribution);
+                preferenceDistribution, 
+                bus);
         this.suitees.with(new SuiteeSupplier()).build();
 
         // Initialize preference rankings for suitors and suitees
@@ -66,7 +68,7 @@ public class StableMarriageSimulator extends Simulator {
     public int run() {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
-            this.suitors.forEach(suitor -> suitor.propose(bus));
+            this.suitors.forEach(Suitor::propose);
             if (bus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) {
                 epochsWithoutChange = 0;
             } else {

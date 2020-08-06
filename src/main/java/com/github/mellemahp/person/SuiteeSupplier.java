@@ -4,7 +4,7 @@ public class SuiteeSupplier extends PersonSupplier<Suitee> {
 
     @Override
     public Suitee get() {
-        return new Suitee(this.score, this.preferenceDistribution);
+        return new Suitee(this.score, this.preferenceDistribution, this.bus);
     }
 
 }

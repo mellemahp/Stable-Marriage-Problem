@@ -9,7 +9,8 @@ import java.util.logging.SimpleFormatter;
 import lombok.NonNull;
 
 public class CustomLoggerFactory {
-    
+    private static final String FORMAT = "[%1$tF %1$tT] [Thread%2$d:%3$s:%4$s] [%5$-5s] %6$s %n";
+
     private CustomLoggerFactory() {
         throw new IllegalStateException("Utility class");
     }
@@ -20,7 +21,6 @@ public class CustomLoggerFactory {
 
         ConsoleHandler handler = new ConsoleHandler();
         handler.setFormatter(new SimpleFormatter() {
-            private static final String FORMAT = "[%1$tF %1$tT] [Thread%2$d:%3$s:%4$s] [%5$-5s] %6$s %n";
 
             @Override
             public synchronized String format(LogRecord lr) {

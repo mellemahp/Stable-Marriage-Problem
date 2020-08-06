@@ -9,11 +9,12 @@ import lombok.NonNull;
 
 public class Suitor extends Person {
     public Suitor(double objectiveAttractivenessScore,
-            @NonNull RealDistribution preferenceDistribution) {
-        super(objectiveAttractivenessScore, preferenceDistribution);
+            @NonNull RealDistribution preferenceDistribution,
+            @NonNull EventBus bus) {
+        super(objectiveAttractivenessScore, preferenceDistribution, bus);
     }
 
-    public void propose(@NonNull EventBus bus) {
+    public void propose() {
         if (this.currentPartner == null) {
             Suitee currentSuitee = (Suitee) this.preferenceRanking.getPerson(this.preferenceIndex);
             ProposalAnswer answer = currentSuitee.reviewProposal(this);
