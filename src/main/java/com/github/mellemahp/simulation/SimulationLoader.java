@@ -32,7 +32,7 @@ public class SimulationLoader {
             .map(File::new)
             .map(SimulationLoader::extractFile)
             .map(fileStream -> yaml.loadAs(fileStream, SimulationConfig.class))
-            .map(Simulator::new)
+            .map(StableMarriageSimulator::new)
             .collect(Collectors.toList());
     }
 }
