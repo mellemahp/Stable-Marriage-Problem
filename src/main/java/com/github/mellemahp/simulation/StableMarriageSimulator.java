@@ -1,4 +1,5 @@
 package com.github.mellemahp.simulation;
+
 import java.util.StringJoiner;
 
 import com.github.mellemahp.configuration.SimulationConfig;
@@ -78,7 +79,7 @@ public class StableMarriageSimulator extends Simulator {
         return 0;
     }
 
-    private boolean stoppingConditionNotReached(int epochsWithoutChange) { 
+    private boolean stoppingConditionNotReached(int epochsWithoutChange) {
         return epochsWithoutChange < this.epochChangeThreshold
                 && bus.getCurrentEpoch() < this.maxEpochs;
     }

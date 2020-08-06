@@ -27,12 +27,12 @@ public class SimulationLoader {
         return null;
     }
 
-    public static List<Simulator> loadSimulations(List<String> filePaths) { 
+    public static List<Simulator> loadSimulations(List<String> filePaths) {
         return filePaths.stream()
-            .map(File::new)
-            .map(SimulationLoader::extractFile)
-            .map(fileStream -> yaml.loadAs(fileStream, SimulationConfig.class))
-            .map(StableMarriageSimulator::new)
-            .collect(Collectors.toList());
+                .map(File::new)
+                .map(SimulationLoader::extractFile)
+                .map(fileStream -> yaml.loadAs(fileStream, SimulationConfig.class))
+                .map(StableMarriageSimulator::new)
+                .collect(Collectors.toList());
     }
 }
