@@ -31,11 +31,11 @@ public class SimulationRunner {
  
         log.info(simulations.size() + " simulations found. Loading parallel execution context...");
         BufferPoller poller = new BufferPoller(dataBus); 
+        parallelExecutionScope.addTask(poller);
         for (Simulator sim: simulations) { 
             parallelExecutionScope.addTask(sim);
         }
-        parallelExecutionScope.addTask(poller);
-
+        
         log.info("Starting parallel run of simulations...");
         parallelExecutionScope.executeTasks();
         log.info("Run complete.");
