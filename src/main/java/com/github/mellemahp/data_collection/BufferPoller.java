@@ -1,7 +1,5 @@
 package com.github.mellemahp.data_collection;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
@@ -21,7 +19,6 @@ public class BufferPoller implements Callable<Integer> {
     }
 
     public Integer pollForData() { 
-
         int i = 0;
         while (i < 100 || !dataBus.isEmpty()) { 
             DataContainer res = dataBus.poll();

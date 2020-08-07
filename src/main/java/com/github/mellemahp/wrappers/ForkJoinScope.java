@@ -3,13 +3,9 @@ package com.github.mellemahp.wrappers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
 
-import lombok.CustomLog;
 
-@CustomLog
 public class ForkJoinScope<T> {
     private final ForkJoinPool forkJoinPool;
     private final List<Callable<T>> forkJoinTasks = new ArrayList<>();
