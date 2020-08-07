@@ -1,8 +1,10 @@
 package com.github.mellemahp.simulation;
 
 import java.util.StringJoiner;
+import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
+import com.github.mellemahp.data_collection.DataContainer;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
@@ -24,7 +26,11 @@ public class StableMarriageSimulator extends Simulator {
     private int maxEpochs;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
 
-    public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig) {
+    public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
+            @NonNull BlockingQueue<DataContainer> dataBusRef) {
+
+        super(dataBusRef);
+
         // set simulation stopping conditions
         this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig()
                 .getEpochChangeThreshold();
@@ -48,15 +54,15 @@ public class StableMarriageSimulator extends Simulator {
         this.suitors = new PersonList<>(
                 simulationConfig.getSuitorConfig().getNumberOfPeople(),
                 suitorDistribution,
-                preferenceDistribution, 
-                bus);
+                preferenceDistribution,
+                eventBus);
         this.suitors.with(new SuitorSupplier()).build();
 
         this.suitees = new PersonList<>(
                 simulationConfig.getSuiteeConfig().getNumberOfPeople(),
                 suiteeDistribution,
-                preferenceDistribution, 
-                bus);
+                preferenceDistribution,
+                eventBus);
         this.suitees.with(new SuiteeSupplier()).build();
 
         // Initialize preference rankings for suitors and suitees
@@ -69,12 +75,28 @@ public class StableMarriageSimulator extends Simulator {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
-            if (bus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) {
+            if (eventBus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) {
                 epochsWithoutChange = 0;
             } else {
                 epochsWithoutChange++;
             }
-            bus.incrementEpoch();
+            eventBus.incrementEpoch();
+            DataContainer epochData = new DataContainer(1,2);
+
+            int retries = 0;
+            while(retries < 5) { 
+                try { 
+                    boolean queueAcceptedData = dataBus.offer(epochData);
+                    if (queueAcceptedData) { 
+                        break;
+                    } else { 
+                        retries++;
+                        Thread.sleep(1);
+                    }
+                } catch (InterruptedException e) { 
+                    log.info("SADNESS");
+                }
+            }
         }
         log.info(generateSimulationTerminationString());
 
@@ -83,13 +105,13 @@ public class StableMarriageSimulator extends Simulator {
 
     private boolean stoppingConditionNotReached(int epochsWithoutChange) {
         return epochsWithoutChange < this.epochChangeThreshold
-                && bus.getCurrentEpoch() < this.maxEpochs;
+                && eventBus.getCurrentEpoch() < this.maxEpochs;
     }
 
     private String generateSimulationTerminationString() {
         newLineStringJoiner.add("");
         newLineStringJoiner.add(LONGSEP);
-        newLineStringJoiner.add("Completed in " + bus.getCurrentEpoch() + " epochs.");
+        newLineStringJoiner.add("Completed in " + eventBus.getCurrentEpoch() + " epochs.");
         newLineStringJoiner.add(LONGSEP);
         newLineStringJoiner.add("Stable configuration: " + isStablePairing());
         newLineStringJoiner.add(LONGSEP);

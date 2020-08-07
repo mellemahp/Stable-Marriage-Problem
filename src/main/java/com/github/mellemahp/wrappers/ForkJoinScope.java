@@ -1,8 +1,11 @@
 package com.github.mellemahp.wrappers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
 import lombok.CustomLog;
 
@@ -15,10 +18,18 @@ public class ForkJoinScope {
         parallelism = parallelismLevel;
     }
 
-    public <T> void runInScope(Callable<T> fxn) {
+    public <T> void runInScope(List<Callable<T>> fxns) {
         try {
+            List<ForkJoinTask<T>> tasks = new ArrayList<>();
             this.forkJoinPool = new ForkJoinPool(parallelism);
-            this.forkJoinPool.submit(fxn).get();
+            for (Callable<T> fxn: fxns) {
+                tasks.add(
+                    this.forkJoinPool.submit(fxn)
+                );
+            }
+            for (ForkJoinTask<T> task: tasks) {
+                task.get();
+            }
         } catch (InterruptedException | ExecutionException e) {
             log.warning("Error encountered while executing simulations in parallel");
             throw new RuntimeException(e);
