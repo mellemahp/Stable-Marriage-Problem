@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import com.github.mellemahp.data_collection.BufferPoller;
 import com.github.mellemahp.data_collection.DataContainer;
@@ -16,28 +15,9 @@ import lombok.CustomLog;
 
 @CustomLog
 public class SimulationRunner {
-    private static ForkJoinScope parallelScope = new ForkJoinScope(4);
+    private static ForkJoinScope<Integer> parallelExecutionScope = new ForkJoinScope<>(4);
     private static final int BUFFER_SIZE = 20;
     private static final BlockingQueue<DataContainer> dataBus = new ArrayBlockingQueue<>(BUFFER_SIZE);
-    private static final BufferPoller poller = new BufferPoller(dataBus);
-
-    public static Callable<List<Integer>> getStartSimulationsInParallelTask(List<Simulator> sims) {
-        return () -> sims.parallelStream()
-                .map(Simulator::run)
-                .collect(Collectors.toList());
-    }
-
-    public static Callable<List<Integer>> getStartPollDataBusTask() {
-        return () -> poller.pollForData();
-    }
-
-    public static void runSimulations(List<Simulator> sims) {
-        // Runs simulations in parallel
-        List<Callable<List<Integer>>> tasks = new ArrayList<>();
-        tasks.add(getStartSimulationsInParallelTask(sims));
-        tasks.add(getStartPollDataBusTask());        
-        parallelScope.runInScope(tasks);
-    }
 
     public static void main(String[] args) {
 
@@ -47,12 +27,17 @@ public class SimulationRunner {
         // Concurrently loads simulation files
         log.info("Loading Configuration files...");
         SimulationFactory simulationFactory = new SimulationFactory(dataBus);
-        List<Simulator> sims = simulationFactory.buildSimulations(files);
+        List<Simulator> simulations = simulationFactory.buildSimulations(files);
+ 
+        log.info(simulations.size() + " simulations found. Loading parallel execution context...");
+        BufferPoller poller = new BufferPoller(dataBus); 
+        for (Simulator sim: simulations) { 
+            parallelExecutionScope.addTask(sim);
+        }
+        parallelExecutionScope.addTask(poller);
 
-        log.info(sims.size() + " simulations found. Starting...");
-
-        // Run simulations in parallel
-        runSimulations(sims);
+        log.info("Starting parallel run of simulations...");
+        parallelExecutionScope.executeTasks();
         log.info("Run complete.");
     }
 }

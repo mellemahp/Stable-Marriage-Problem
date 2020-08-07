@@ -5,30 +5,32 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
 
 import lombok.CustomLog;
 
 @CustomLog
-public class ForkJoinScope {
+public class ForkJoinScope<T> {
     private final int parallelism;
-    private ForkJoinPool forkJoinPool = null;
+    private final ForkJoinPool forkJoinPool;
+    private final List<Callable<T>> taskList = new ArrayList<>();
 
     public ForkJoinScope(int parallelismLevel) {
         parallelism = parallelismLevel;
+        forkJoinPool = new ForkJoinPool(parallelismLevel);
     }
 
-    public <T> void runInScope(List<Callable<T>> fxns) {
+    public void addTask(Callable<T> task) { 
+        taskList.add(task);
+    }
+
+    public void clear() {
+        taskList.clear();
+    }
+
+    public void executeTasks() { 
         try {
-            List<ForkJoinTask<T>> tasks = new ArrayList<>();
-            this.forkJoinPool = new ForkJoinPool(parallelism);
-            for (Callable<T> fxn: fxns) {
-                tasks.add(
-                    this.forkJoinPool.submit(fxn)
-                );
-            }
-            for (ForkJoinTask<T> task: tasks) {
-                task.get();
+            for (Callable<T> task: taskList) {
+                this.forkJoinPool.submit(task).get();
             }
         } catch (InterruptedException | ExecutionException e) {
             log.warning("Error encountered while executing simulations in parallel");

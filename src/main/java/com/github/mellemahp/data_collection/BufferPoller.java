@@ -3,19 +3,24 @@ package com.github.mellemahp.data_collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
 
 import lombok.CustomLog;
 
 @CustomLog
-public class BufferPoller {
+public class BufferPoller implements Callable<Integer> {
     private final BlockingQueue<DataContainer> dataBus; 
 
     public BufferPoller(BlockingQueue<DataContainer> dataBusRef) {
         dataBus = dataBusRef;
     }
 
-    public List<Integer> pollForData() { 
-        List<Integer> resultsCodeList = new ArrayList<>();
+    @Override
+    public Integer call() { 
+        return pollForData();
+    }
+
+    public Integer pollForData() { 
 
         int i = 0;
         while (i < 100 || !dataBus.isEmpty()) { 
@@ -28,6 +33,6 @@ public class BufferPoller {
                 log.info("Buffer Size: " + dataBus.size());
             }
         }
-        return resultsCodeList;
+        return 0;
     }
 }
