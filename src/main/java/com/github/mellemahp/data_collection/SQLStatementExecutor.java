@@ -16,20 +16,20 @@ public class SQLStatementExecutor {
         sqlActions = new ArrayList<>();
     }
 
-    public void add(SQLStatement sqlStatement) { 
+    public void add(SQLStatement sqlStatement) {
         sqlActions.add(sqlStatement);
     }
 
-    public void clear() { 
+    public void clear() {
         sqlActions.clear();
     }
 
     public void execute(Statement connectionStatement) {
-        for (SQLStatement action: sqlActions) { 
+        for (SQLStatement action : sqlActions) {
             String actionString = action.getSQL();
-            try { 
+            try {
                 connectionStatement.executeUpdate(actionString);
-            } catch(SQLException e) { 
+            } catch (SQLException e) {
                 log.info(e.getMessage());
             }
         }
