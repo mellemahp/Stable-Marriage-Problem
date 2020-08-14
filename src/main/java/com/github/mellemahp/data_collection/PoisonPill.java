@@ -7,11 +7,6 @@ public class PoisonPill implements DataContainer {
         this.simulationId = simId;
     }
 
-    @Override
-    public int getData() { 
-        throw poison();
-    }
-
     @Override 
     public String getSimulationId() { 
         return this.simulationId;
@@ -19,5 +14,11 @@ public class PoisonPill implements DataContainer {
 
     private RuntimeException poison() {
         return new UnsupportedOperationException("Poison");
+    }
+
+    @Override
+    public SQLStatement toSQLStatement() {
+        // TODO: figure out return poison
+        return null;
     }
 }

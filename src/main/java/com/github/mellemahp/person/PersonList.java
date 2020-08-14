@@ -38,6 +38,7 @@ public class PersonList<T extends Person> implements Iterable<T> {
                     this.personSupplier.withScore(score)
                             .withBus(this.bus)
                             .withPreferenceDistribution(this.preferenceDistribution)
+                            .withPersonID(i)
                             .get());
         }
 

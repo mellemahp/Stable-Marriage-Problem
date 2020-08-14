@@ -27,6 +27,7 @@ public class StableMarriageSimulator extends Simulator {
     private int epochChangeThreshold;
     private int maxEpochs;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
+    private EpochDataContainerBuilder epochDataContainterBuilder;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
             @NonNull BlockingQueue<DataContainer> dataBusRef) {
@@ -70,6 +71,9 @@ public class StableMarriageSimulator extends Simulator {
         // Initialize preference rankings for suitors and suitees
         this.suitors.initializePreferenceList(this.suitees);
         this.suitees.initializePreferenceList(this.suitors);
+
+        // Initialize DataContainer factories
+        this.epochDataContainterBuilder = new EpochDataContainerBuilder();
     }
 
     @Override
@@ -83,6 +87,7 @@ public class StableMarriageSimulator extends Simulator {
                 epochsWithoutChange++;
             }
             eventBus.incrementEpoch();
+    
             DataContainer epochData = new TestDataContainer();
             sendDataWithRetry(epochData);
         

@@ -24,13 +24,17 @@ public class Person {
     protected double objectiveAttractivenessScore;
     @EqualsAndHashCode.Exclude
     protected RealDistribution preferenceDistribution;
+    @Getter
+    protected int personID;
 
     public Person(double objectiveAttractivenessScore,
             @NonNull RealDistribution preferenceDistribution,
-            @NonNull EventBus eventBus) {
+            @NonNull EventBus eventBus,
+            @NonNull int personID) {
         this.objectiveAttractivenessScore = objectiveAttractivenessScore;
         this.preferenceDistribution = preferenceDistribution;
         bus = eventBus;
+        this.personID = personID;
     }
 
     public <T extends Person> void initializePreferences(@NonNull PersonList<T> personList) {

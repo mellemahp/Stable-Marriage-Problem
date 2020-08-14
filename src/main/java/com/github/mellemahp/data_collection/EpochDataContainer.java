@@ -1,14 +1,16 @@
 package com.github.mellemahp.data_collection;
 
-public class TestDataContainer implements DataContainer {
+public class EpochDataContainer implements DataContainer {
+    private int epoch;
 
-    public TestDataContainer() { 
-        // GARBAGE
+    public EpochDataContainer(int epoch) {
+        this.epoch = epoch;
     }
 
     @Override
     public String getSimulationId() {
-        return "YAY";
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
@@ -16,5 +18,4 @@ public class TestDataContainer implements DataContainer {
         // TODO Auto-generated method stub
         return null;
     }
-    
 }

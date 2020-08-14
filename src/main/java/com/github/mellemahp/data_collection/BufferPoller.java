@@ -33,7 +33,7 @@ public class BufferPoller implements Callable<Integer> {
             log.info("Got Poison pill from Simulation: " + result.getSimulationId());
             this.poisonVial.addPoisonPill(result);
         } else {
-            log.info("GOT " + result.getData());
+            log.info("GOT " + result);
             log.info("Buffer Size: " + dataBus.size());
         }
     }

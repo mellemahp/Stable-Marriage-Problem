@@ -10,8 +10,9 @@ import lombok.NonNull;
 public class Suitee extends Person {
     public Suitee(double objectiveAttractivenessScore,
             @NonNull RealDistribution preferenceDistribution,
-            @NonNull EventBus bus) {
-        super(objectiveAttractivenessScore, preferenceDistribution, bus);
+            @NonNull EventBus bus,
+            @NonNull int personID) {
+        super(objectiveAttractivenessScore, preferenceDistribution, bus, personID);
     }
 
     public ProposalAnswer reviewProposal(@NonNull Suitor newSuitor) {

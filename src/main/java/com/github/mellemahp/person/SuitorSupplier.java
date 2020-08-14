@@ -4,7 +4,7 @@ public class SuitorSupplier extends PersonSupplier<Suitor> {
 
     @Override
     public Suitor get() {
-        return new Suitor(this.score, this.preferenceDistribution, this.bus);
+        return new Suitor(this.score, this.preferenceDistribution, this.bus, this.personID);
     }
 
 }
