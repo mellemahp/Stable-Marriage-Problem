@@ -25,6 +25,18 @@ public class SQLiteJDBCConnector {
       connectionString = String.format("jdbc:sqlite:%s", dataBasePath);
    }
 
+   public void createDBIfNotExists() { 
+      SQLStatementExecutor dbCreator = new SQLStatementExecutor();
+      String createDBString = "CREATE TABLE IF NOT EXISTS projects (\n" + 
+      "id integer PRIMARY KEY,\n" +
+      "name text NOT NULL,\n" + 
+      "begin_date text,\n" + 
+      "end_date text\n" + 
+      ");";
+      dbCreator.add(new SQLStatement(createDBString));
+      executeInConnectionContext(dbCreator);
+   }
+
    public void executeInConnectionContext(SQLStatementExecutor sqlExecutor) {
       try (Connection connection = DriverManager.getConnection(connectionString);
             Statement statement = connection.createStatement()) {

@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.data_collection.BufferPoller;
 import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.SQLiteJDBCConnector;
 import com.github.mellemahp.wrappers.ForkJoinScope;
 
 import lombok.CustomLog;
@@ -27,6 +28,10 @@ public class SimulationRunner {
         SimulationFactory simulationFactory = new SimulationFactory(dataBus);
         List<Simulator> simulations = simulationFactory.buildSimulations(files);
         
+        // Build database and ensure all schemas are created 
+        SQLiteJDBCConnector dbConnector = new SQLiteJDBCConnector("test.db");
+        dbConnector.createDBIfNotExists();
+
         int numberOfSimulations = simulations.size();
         BufferPoller poller = new BufferPoller(dataBus, numberOfSimulations);
 
