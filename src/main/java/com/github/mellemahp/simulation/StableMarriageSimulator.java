@@ -27,6 +27,7 @@ public class StableMarriageSimulator extends Simulator {
     private int epochChangeThreshold;
     private int maxEpochs;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
+    private static final int NUMBER_OF_BUS_RETRIES = 5;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
             @NonNull BlockingQueue<DataContainer> dataBusRef) {
@@ -97,7 +98,7 @@ public class StableMarriageSimulator extends Simulator {
 
     private void sendDataWithRetry(DataContainer data) { 
         int retries = 0;
-        while(retries < 5) { 
+        while(retries < NUMBER_OF_BUS_RETRIES) { 
             try { 
                 boolean queueAcceptedData = dataBus.offer(data);
                 if (queueAcceptedData) { 
