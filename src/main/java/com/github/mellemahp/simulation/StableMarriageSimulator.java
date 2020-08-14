@@ -5,6 +5,7 @@ import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.EpochDataContainer;
 import com.github.mellemahp.data_collection.PoisonPill;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
@@ -93,18 +94,24 @@ public class StableMarriageSimulator extends Simulator {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
-            if (eventBus.countEventsCurrentEpoch(Event.NEW_PARTNER) != 0) {
+            int numberOfNewPairings = eventBus.countEventsCurrentEpoch(Event.NEW_PARTNER);
+            if (numberOfNewPairings != 0) {
                 epochsWithoutChange = 0;
             } else {
                 epochsWithoutChange++;
             }
             eventBus.incrementEpoch();
             
-            // Create EpochDataContainer
-            
-            sendDataWithRetry(null);
-        
+            EpochDataContainer epochDataContainer = this.epochDataContainerBuilder
+                .withEpoch(eventBus.getCurrentEpoch())
+                .withSuitors(this.suitors)
+                .withSuitees(this.suitees)
+                .withNumberOfNewPairings(numberOfNewPairings)
+                .build();
+
+            sendDataWithRetry(epochDataContainer);
         }
+
         log.info("Sending poison pill and terminating simulation");
         PoisonPill poisonPill = new PoisonPill(this.simulationID);
         sendDataWithRetry(poisonPill);

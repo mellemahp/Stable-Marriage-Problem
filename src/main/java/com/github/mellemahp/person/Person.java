@@ -30,7 +30,7 @@ public class Person {
     public Person(double objectiveAttractivenessScore,
             @NonNull RealDistribution preferenceDistribution,
             @NonNull EventBus eventBus,
-            @NonNull int personID) {
+            int personID) {
         this.objectiveAttractivenessScore = objectiveAttractivenessScore;
         this.preferenceDistribution = preferenceDistribution;
         bus = eventBus;
