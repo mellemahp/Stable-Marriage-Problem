@@ -5,6 +5,8 @@ import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.PoisonPill;
+import com.github.mellemahp.data_collection.TestDataContainer;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
@@ -81,26 +83,33 @@ public class StableMarriageSimulator extends Simulator {
                 epochsWithoutChange++;
             }
             eventBus.incrementEpoch();
-            DataContainer epochData = new DataContainer(1,2);
-
-            int retries = 0;
-            while(retries < 5) { 
-                try { 
-                    boolean queueAcceptedData = dataBus.offer(epochData);
-                    if (queueAcceptedData) { 
-                        break;
-                    } else { 
-                        retries++;
-                        Thread.sleep(1);
-                    }
-                } catch (InterruptedException e) { 
-                    log.info("SADNESS");
-                }
-            }
+            DataContainer epochData = new TestDataContainer();
+            sendDataWithRetry(epochData);
+        
         }
+        log.info("Sending poison pill and terminating simulation");
+        PoisonPill poisonPill = new PoisonPill("A VALUE");
+        sendDataWithRetry(poisonPill);
         log.info(generateSimulationTerminationString());
 
         return 0;
+    }
+
+    private void sendDataWithRetry(DataContainer data) { 
+        int retries = 0;
+        while(retries < 5) { 
+            try { 
+                boolean queueAcceptedData = dataBus.offer(data);
+                if (queueAcceptedData) { 
+                    break;
+                } else { 
+                    retries++;
+                    Thread.sleep(1);
+                }
+            } catch (InterruptedException e) { 
+                log.info("Failed to send data with 5 retries");
+            }
+        }
     }
 
     private boolean stoppingConditionNotReached(int epochsWithoutChange) {

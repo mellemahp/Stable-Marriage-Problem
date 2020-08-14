@@ -16,7 +16,6 @@ public class SimulationRunner {
     private static ForkJoinScope<Integer> parallelExecutionScope = new ForkJoinScope<>(4);
     private static final int BUFFER_SIZE = 20;
     private static final BlockingQueue<DataContainer> dataBus = new ArrayBlockingQueue<>(BUFFER_SIZE);
-    private static final BufferPoller poller = new BufferPoller(dataBus); 
 
     public static void main(String[] args) {
 
@@ -27,8 +26,11 @@ public class SimulationRunner {
         log.info("Loading Configuration files...");
         SimulationFactory simulationFactory = new SimulationFactory(dataBus);
         List<Simulator> simulations = simulationFactory.buildSimulations(files);
- 
-        log.info(simulations.size() + " simulations found. Loading parallel execution context...");
+        
+        int numberOfSimulations = simulations.size();
+        BufferPoller poller = new BufferPoller(dataBus, numberOfSimulations);
+
+        log.info(numberOfSimulations + " simulations found. Loading parallel execution context...");
         parallelExecutionScope.addTask(poller);
         for (Simulator sim: simulations) { 
             parallelExecutionScope.addTask(sim);

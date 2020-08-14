@@ -8,28 +8,46 @@ import lombok.CustomLog;
 @CustomLog
 public class BufferPoller implements Callable<Integer> {
     private final BlockingQueue<DataContainer> dataBus; 
+    private final PoisonVial poisonVial;
 
-    public BufferPoller(BlockingQueue<DataContainer> dataBusRef) {
-        dataBus = dataBusRef;
+    public BufferPoller(BlockingQueue<DataContainer> dataBusRef, int capacity) {
+        this.dataBus = dataBusRef;
+        this.poisonVial = new PoisonVial(capacity);
     }
 
     @Override
     public Integer call() { 
-        return pollForData();
+        log.info("Polling for data");
+        pollTillPoisoned();
+        log.info("Poison Vial full. Closing poller...");
+        pollTillBufferEmpty(); 
+
+        return 0;
     }
 
-    public Integer pollForData() { 
-        int i = 0;
-        while (i < 100 || !dataBus.isEmpty()) { 
-            DataContainer res = dataBus.poll();
-            i++;
-            if (res == null) { 
-                log.info("NO data. Sad");
-            } else { 
-                log.info("GOT " + res.getN1());
-                log.info("Buffer Size: " + dataBus.size());
-            }
+    private void pollForData() { 
+        DataContainer result = dataBus.poll();
+        
+        if (result == null) { 
+            log.info("NO data. Sad");
+        } else if (result instanceof PoisonPill) { 
+            log.info("Got Poison pill from Simulation: " + result.getSimulationId());
+            this.poisonVial.addPoisonPill(result);
+        } else {
+            log.info("GOT " + result.getData());
+            log.info("Buffer Size: " + dataBus.size());
         }
-        return 0;
+    }
+
+    private void pollTillPoisoned() { 
+        while (this.poisonVial.isNotFull()) {
+            pollForData();
+        }
+    }
+
+    private void pollTillBufferEmpty() { 
+        while (!dataBus.isEmpty()) { 
+            pollForData();
+        }
     }
 }
