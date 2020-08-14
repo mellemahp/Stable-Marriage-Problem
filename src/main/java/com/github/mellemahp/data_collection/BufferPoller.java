@@ -20,7 +20,6 @@ public class BufferPoller implements Callable<Integer> {
         log.info("Polling for data");
         pollTillPoisoned();
         log.info("Poison Vial full. Closing poller...");
-        pollTillBufferEmpty(); 
 
         return 0;
     }
@@ -41,12 +40,6 @@ public class BufferPoller implements Callable<Integer> {
 
     private void pollTillPoisoned() { 
         while (this.poisonVial.isNotFull()) {
-            pollForData();
-        }
-    }
-
-    private void pollTillBufferEmpty() { 
-        while (!dataBus.isEmpty()) { 
             pollForData();
         }
     }
