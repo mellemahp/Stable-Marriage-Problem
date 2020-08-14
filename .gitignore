@@ -30,3 +30,6 @@ target
 
 # Ignore VSCode related files
 .vscode
+
+# ignore database files 
+*.db
