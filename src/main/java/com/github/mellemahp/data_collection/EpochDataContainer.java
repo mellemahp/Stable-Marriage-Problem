@@ -1,16 +1,22 @@
 package com.github.mellemahp.data_collection;
 
-public class EpochDataContainer implements DataContainer {
-    private int epoch;
+import java.util.UUID;
 
-    public EpochDataContainer(int epoch) {
-        this.epoch = epoch;
+import lombok.NonNull;
+
+public class EpochDataContainer implements DataContainer {
+    private final Integer epoch;
+    private final UUID simulationID;
+
+    public EpochDataContainer(@NonNull Integer epochNum,
+            @NonNull UUID simID) {
+        epoch = epochNum;
+        simulationID = simID;
     }
 
     @Override
-    public String getSimulationId() {
-        // TODO Auto-generated method stub
-        return null;
+    public UUID getSimulationID() {
+        return this.simulationID;
     }
 
     @Override

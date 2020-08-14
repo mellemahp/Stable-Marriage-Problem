@@ -1,14 +1,16 @@
 package com.github.mellemahp.data_collection;
 
-public class PoisonPill implements DataContainer {
-    public final String simulationId;
+import java.util.UUID;
 
-    public PoisonPill(String simId) { 
-        this.simulationId = simId;
+public class PoisonPill implements DataContainer {
+    public final UUID simulationId;
+
+    public PoisonPill(UUID simId) { 
+        simulationId = simId;
     }
 
     @Override 
-    public String getSimulationId() { 
+    public UUID getSimulationID() { 
         return this.simulationId;
     }
 

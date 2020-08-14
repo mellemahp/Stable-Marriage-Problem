@@ -30,7 +30,7 @@ public class BufferPoller implements Callable<Integer> {
         if (result == null) { 
             log.info("NO data. Sad");
         } else if (result instanceof PoisonPill) { 
-            log.info("Got Poison pill from Simulation: " + result.getSimulationId());
+            log.info("Got Poison pill from Simulation: " + result.getSimulationID());
             this.poisonVial.addPoisonPill(result);
         } else {
             log.info("GOT " + result);

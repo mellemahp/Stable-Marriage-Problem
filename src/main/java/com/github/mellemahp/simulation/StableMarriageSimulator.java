@@ -6,7 +6,6 @@ import java.util.concurrent.BlockingQueue;
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.data_collection.DataContainer;
 import com.github.mellemahp.data_collection.PoisonPill;
-import com.github.mellemahp.data_collection.TestDataContainer;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
@@ -31,11 +30,14 @@ public class StableMarriageSimulator extends Simulator {
     private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
     private static final int NUMBER_OF_BUS_RETRIES = 5;
+    private final EpochDataContainerBuilder epochDataContainerBuilder;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
             @NonNull BlockingQueue<DataContainer> dataBusRef) {
 
         super(dataBusRef);
+
+        epochDataContainerBuilder = new EpochDataContainerBuilder(simulationID);
 
         setSimulationStoppingConditions(simulationConfig);
         setSimulationDistributions(simulationConfig);
@@ -97,13 +99,14 @@ public class StableMarriageSimulator extends Simulator {
                 epochsWithoutChange++;
             }
             eventBus.incrementEpoch();
-    
-            DataContainer epochData = new TestDataContainer();
-            sendDataWithRetry(epochData);
+            
+            // Create EpochDataContainer
+            
+            sendDataWithRetry(null);
         
         }
         log.info("Sending poison pill and terminating simulation");
-        PoisonPill poisonPill = new PoisonPill("A VALUE");
+        PoisonPill poisonPill = new PoisonPill(this.simulationID);
         sendDataWithRetry(poisonPill);
         log.info(generateSimulationTerminationString());
 
