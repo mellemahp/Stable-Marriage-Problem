@@ -38,9 +38,8 @@ public class SQLiteJDBCConnector {
    }
 
    public void executeInConnectionContext(SQLStatementExecutor sqlExecutor) {
-      try (Connection connection = DriverManager.getConnection(connectionString);
-            Statement statement = connection.createStatement()) {
-         sqlExecutor.execute(statement);
+      try (Connection connection = DriverManager.getConnection(connectionString)){
+         sqlExecutor.execute(connection);
       } catch (SQLException e) {
          log.severe("Unable to connect to database " + connectionString + " " + e.getMessage());
       }

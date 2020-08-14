@@ -1,34 +1,36 @@
 package com.github.mellemahp.data_collection;
 
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.CustomLog;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @CustomLog
 public class SQLStatementExecutor {
-    private final List<SQLStatement> sqlActions;
+    private final List<DataContainer> dataBuffer;
 
     public SQLStatementExecutor() {
-        sqlActions = new ArrayList<>();
+        dataBuffer = new ArrayList<>();
     }
 
-    public void add(SQLStatement sqlStatement) {
-        sqlActions.add(sqlStatement);
+    public void add(DataContainer data) {
+        dataBuffer.add(data);
     }
 
     public void clear() {
-        sqlActions.clear();
+        dataBuffer.clear();
     }
 
-    public void execute(Statement connectionStatement) {
-        for (SQLStatement action : sqlActions) {
-            String actionString = action.getSQL();
+    public void execute(Connection connection) {
+        for (DataContainer dataObj : dataBuffer) {
             try {
-                connectionStatement.executeUpdate(actionString);
+                PreparedStatement preparedStatement = dataObj.withConnection(connection)
+                        .toPreparedStatement();
+                preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 log.info(e.getMessage());
             }
