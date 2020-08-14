@@ -26,54 +26,64 @@ public class StableMarriageSimulator extends Simulator {
     private PersonList<Suitee> suitees;
     private int epochChangeThreshold;
     private int maxEpochs;
+    private RealDistribution suitorDistribution;
+    private RealDistribution suiteeDistribution;
+    private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
-    private EpochDataContainerBuilder epochDataContainterBuilder;
+    private static final int NUMBER_OF_BUS_RETRIES = 5;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
             @NonNull BlockingQueue<DataContainer> dataBusRef) {
 
         super(dataBusRef);
 
-        // set simulation stopping conditions
+        setSimulationStoppingConditions(simulationConfig);
+        setSimulationDistributions(simulationConfig);
+
+        setSuitorList(simulationConfig);
+        setSuiteeList(simulationConfig);
+
+        this.suitors.initializePreferenceList(this.suitees);
+        this.suitees.initializePreferenceList(this.suitors);
+    }
+    
+    private void setSimulationStoppingConditions(SimulationConfig simulationConfig) {
         this.epochChangeThreshold = simulationConfig.getStoppingConditionsConfig()
                 .getEpochChangeThreshold();
         this.maxEpochs = simulationConfig.getStoppingConditionsConfig()
                 .getMaxEpochs();
+    }
 
-        // Make distributions for Suitor, Suitee and Preference
+    private void setSimulationDistributions(SimulationConfig simulationConfig) { 
         DistributionBuilder distributionBuilder = new DistributionBuilder();
-
-        RealDistribution suitorDistribution = distributionBuilder
+        this.suitorDistribution = distributionBuilder
                 .with(simulationConfig.getSuitorConfig().getDistribution())
                 .build();
-        RealDistribution suiteeDistribution = distributionBuilder
+        this.suiteeDistribution = distributionBuilder
                 .with(simulationConfig.getSuitorConfig().getDistribution())
                 .build();
-        RealDistribution preferenceDistribution = distributionBuilder
+        this.preferenceDistribution = distributionBuilder
                 .with(simulationConfig.getPreferenceConfig().getDistribution())
                 .build();
+    }
 
+    private void setSuitorList(SimulationConfig simulationConfig) { 
         // Build list of suitors and suitees
         this.suitors = new PersonList<>(
                 simulationConfig.getSuitorConfig().getNumberOfPeople(),
-                suitorDistribution,
-                preferenceDistribution,
+                this.suitorDistribution,
+                this.preferenceDistribution,
                 eventBus);
         this.suitors.with(new SuitorSupplier()).build();
+    }
 
+    private void setSuiteeList(SimulationConfig simulationConfig) { 
         this.suitees = new PersonList<>(
                 simulationConfig.getSuiteeConfig().getNumberOfPeople(),
-                suiteeDistribution,
-                preferenceDistribution,
+                this.suiteeDistribution,
+                this.preferenceDistribution,
                 eventBus);
         this.suitees.with(new SuiteeSupplier()).build();
-
-        // Initialize preference rankings for suitors and suitees
-        this.suitors.initializePreferenceList(this.suitees);
-        this.suitees.initializePreferenceList(this.suitors);
-
-        // Initialize DataContainer factories
-        this.epochDataContainterBuilder = new EpochDataContainerBuilder();
     }
 
     @Override
@@ -102,7 +112,7 @@ public class StableMarriageSimulator extends Simulator {
 
     private void sendDataWithRetry(DataContainer data) { 
         int retries = 0;
-        while(retries < 5) { 
+        while(retries < NUMBER_OF_BUS_RETRIES) { 
             try { 
                 boolean queueAcceptedData = dataBus.offer(data);
                 if (queueAcceptedData) { 
