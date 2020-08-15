@@ -8,18 +8,21 @@ import java.util.UUID;
 import lombok.NonNull;
 
 public class EpochDataContainer implements DataContainer {
-    @SQLiteField
+    @PrimarySQLKey
+    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
+    private final Integer primaryKey;
+    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
     private final Integer epoch;
-    @SQLiteField
+    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true)
     private final UUID simulationID;
-    @SQLiteField
+    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
     private final Map<Integer, Integer> suitorPairings;
-    @SQLiteField
+    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
     private final Map<Integer, Integer> suiteePairings;
-    @SQLiteField
+    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
     private final Integer numberOfNewPairings;
-    private final String sqlStatement;
 
+    private final String sqlStatement;
     private Connection connection;
    
     public EpochDataContainer(
@@ -28,6 +31,7 @@ public class EpochDataContainer implements DataContainer {
             @NonNull Map<Integer, Integer> suitorPairingsMap,
             @NonNull Map<Integer, Integer> suiteePairingsMap,
             @NonNull Integer numNewPairings) {
+        primaryKey = simID.hashCode() + epochNum;
         epoch = epochNum;
         simulationID = simID;
         suitorPairings = suitorPairingsMap;
@@ -50,7 +54,7 @@ public class EpochDataContainer implements DataContainer {
     @Override
     public DataContainer withConnection(Connection connection) {
         this.connection = connection;
-        return null;
+        return this;
     }
 
     @Override
@@ -61,7 +65,6 @@ public class EpochDataContainer implements DataContainer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
         this.connection = null;
         
         return statement;

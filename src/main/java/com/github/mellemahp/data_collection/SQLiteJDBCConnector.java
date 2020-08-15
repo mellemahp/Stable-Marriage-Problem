@@ -27,12 +27,7 @@ public class SQLiteJDBCConnector {
 
    public void createDBIfNotExists() { 
       SQLStatementExecutor dbCreator = new SQLStatementExecutor();
-      String createDBString = "CREATE TABLE IF NOT EXISTS projects (\n" + 
-      "id integer PRIMARY KEY,\n" +
-      "name text NOT NULL,\n" + 
-      "begin_date text,\n" + 
-      "end_date text\n" + 
-      ");";
+      String createDBString = 
       dbCreator.add(new SQLStatement(createDBString));
       executeInConnectionContext(dbCreator);
    }

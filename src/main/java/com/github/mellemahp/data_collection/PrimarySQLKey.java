@@ -7,12 +7,4 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface SQLiteField {
-
-    boolean nonNull();
-
-    SQLiteTypes type();
-
-    boolean json() default false;
-
-}
+public @interface  PrimarySQLKey {}
