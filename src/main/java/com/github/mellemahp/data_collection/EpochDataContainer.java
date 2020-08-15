@@ -66,7 +66,7 @@ public class EpochDataContainer implements DataContainer {
             e.printStackTrace();
         }
         this.connection = null;
-        
+        statement.setBlob(parameterIndex, x);
         return statement;
     }
 }

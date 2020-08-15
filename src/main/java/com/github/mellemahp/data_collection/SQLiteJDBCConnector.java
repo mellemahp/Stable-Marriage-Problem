@@ -27,9 +27,7 @@ public class SQLiteJDBCConnector {
 
    public void createDBIfNotExists() { 
       SQLStatementExecutor dbCreator = new SQLStatementExecutor();
-      String createDBString = 
-      dbCreator.add(new SQLStatement(createDBString));
-      executeInConnectionContext(dbCreator);
+      // TODO MAKE THIS BUILD THE DB
    }
 
    public void executeInConnectionContext(SQLStatementExecutor sqlExecutor) {

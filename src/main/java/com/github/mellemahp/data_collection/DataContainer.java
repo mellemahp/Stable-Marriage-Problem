@@ -1,6 +1,7 @@
 package com.github.mellemahp.data_collection;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -8,10 +9,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.reflect.FieldUtils;
+
+import lombok.CustomLog;
+
 import java.lang.reflect.Method;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public interface DataContainer {
 
@@ -99,19 +104,25 @@ public interface DataContainer {
             SQLiteField annotation = field.getAnnotation(SQLiteField.class);
             SQLiteTypes sqlType = annotation.type();
             
-            Object value;
+            Object value = null;
             try { 
                 value = field.get(sqlType.getType());
             } catch (IllegalAccessException e) {
-
+                System.out.println(e.toString());
             }
+
             if (annotation.json()) { 
                 value = convertToJson(value);
             }
             Method setter = getSetterForPreparedStatement(preparedStatement, sqlType);
-            setter.invoke(fieldNum, value);
+            try { 
+                setter.invoke(fieldNum, value);
+            } catch (InvocationTargetException | IllegalArgumentException | IllegalAccessException e) {
+                System.out.println(e.toString());
+            }
         }
         
+        return preparedStatement;
     }
 
     default Method getSetterForPreparedStatement(PreparedStatement preparedStatement, SQLiteTypes type) { 
@@ -122,7 +133,9 @@ public interface DataContainer {
             int.class, 
             type.getType());
         } catch (SecurityException e) {
+            System.out.println(e.toString());
         } catch (NoSuchMethodException e) {
+            System.out.println(e.toString());
         }
 
         return method;
