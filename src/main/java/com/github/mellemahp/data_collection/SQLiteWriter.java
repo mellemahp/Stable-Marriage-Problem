@@ -1,8 +1,5 @@
 package com.github.mellemahp.data_collection;
 
-import lombok.CustomLog;
-
-@CustomLog
 public class SQLiteWriter {
     private SQLiteJDBCConnector connector;
     private final SQLStatementExecutor sqlExecutor = new SQLStatementExecutor();

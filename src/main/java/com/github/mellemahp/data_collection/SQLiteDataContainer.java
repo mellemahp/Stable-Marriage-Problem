@@ -6,9 +6,6 @@ import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import lombok.CustomLog;
-
-@CustomLog
 public abstract class SQLiteDataContainer implements SQLiteSerializable {
     @PrimarySQLKey
     @SQLiteField(type = SQLiteTypes.INTEGER)

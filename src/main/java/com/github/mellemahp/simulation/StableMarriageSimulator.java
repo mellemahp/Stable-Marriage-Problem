@@ -30,7 +30,6 @@ public class StableMarriageSimulator extends Simulator {
     private RealDistribution suiteeDistribution;
     private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
-    private static final int NUMBER_OF_BUS_RETRIES = 5;
     private final EpochDataContainerBuilder epochDataContainerBuilder;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
