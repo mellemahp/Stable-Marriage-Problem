@@ -4,7 +4,7 @@ import java.util.StringJoiner;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
-import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.SQLiteDataContainer;
 import com.github.mellemahp.data_collection.EpochDataContainer;
 import com.github.mellemahp.data_collection.PoisonPill;
 import com.github.mellemahp.distribution.DistributionBuilder;
@@ -34,7 +34,7 @@ public class StableMarriageSimulator extends Simulator {
     private final EpochDataContainerBuilder epochDataContainerBuilder;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
-            @NonNull BlockingQueue<DataContainer> dataBusRef) {
+            @NonNull BlockingQueue<SQLiteDataContainer> dataBusRef) {
 
         super(dataBusRef);
 
@@ -90,7 +90,7 @@ public class StableMarriageSimulator extends Simulator {
     }
 
     @Override
-    public int run() {
+    public int run() throws InterruptedException {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
@@ -120,7 +120,7 @@ public class StableMarriageSimulator extends Simulator {
         return 0;
     }
 
-    private void sendDataWithRetry(DataContainer data) { 
+    private void sendDataWithRetry(SQLiteDataContainer data) throws InterruptedException {
         int retries = 0;
         while(retries < NUMBER_OF_BUS_RETRIES) { 
             try { 
@@ -133,6 +133,7 @@ public class StableMarriageSimulator extends Simulator {
                 }
             } catch (InterruptedException e) { 
                 log.info("Failed to send data with 5 retries");
+                throw e;
             }
         }
     }

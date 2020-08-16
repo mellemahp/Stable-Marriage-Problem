@@ -1,17 +1,17 @@
 package com.github.mellemahp.data_collection;
 
 public class PoisonVial {
-    private DataContainer[] poisonPillArray;
+    private SQLiteDataContainer[] poisonPillArray;
     private int capacity;
     private int nextIndex;
 
     public PoisonVial(int capacity) { 
         this.capacity = capacity;
         this.nextIndex = 0;
-        this.poisonPillArray = new DataContainer[capacity];
+        this.poisonPillArray = new SQLiteDataContainer[capacity];
     }
 
-    public void addPoisonPill(DataContainer pill) { 
+    public void addPoisonPill(SQLiteDataContainer pill) { 
         if (pill instanceof PoisonPill) {
             this.poisonPillArray[nextIndex] = pill;
             this.nextIndex++;

@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.UUID;
 
-public class PoisonPill implements DataContainer {
+public class PoisonPill extends SQLiteDataContainer {
     public final UUID simulationId;
 
     public PoisonPill(UUID simId) {
+        super(null);
         simulationId = simId;
     }
 
-    @Override
     public UUID getSimulationID() {
         return this.simulationId;
     }
@@ -26,7 +26,7 @@ public class PoisonPill implements DataContainer {
     }
 
     @Override
-    public DataContainer withConnection(Connection connection) {
+    public PoisonPill withConnection(Connection connection) {
         throw poison();
     }
 }

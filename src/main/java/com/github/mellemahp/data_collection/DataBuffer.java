@@ -4,7 +4,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class DataBuffer {
-    public final BlockingQueue<DataContainer> queue;
+    public final BlockingQueue<SQLiteDataContainer> queue;
     public final int size;
 
     public DataBuffer(int bufferSize) { 

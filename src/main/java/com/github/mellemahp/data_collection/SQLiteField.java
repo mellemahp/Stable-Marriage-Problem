@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface SQLiteField {
 
-    boolean nonNull();
+    boolean nonNull() default false;
 
     SQLiteTypes type();
 

@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 import org.yaml.snakeyaml.Yaml;
 
 import com.github.mellemahp.configuration.SimulationConfig;
-import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.SQLiteDataContainer;
 
 public class SimulationFactory {
-    private BlockingQueue<DataContainer> dataBus;
+    private BlockingQueue<SQLiteDataContainer> dataBus;
     private static Yaml yaml = new Yaml();
 
-    public SimulationFactory(BlockingQueue<DataContainer> bus) {
+    public SimulationFactory(BlockingQueue<SQLiteDataContainer> bus) {
         this.dataBus = bus;
     }
 

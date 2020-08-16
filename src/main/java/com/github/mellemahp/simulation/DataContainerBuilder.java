@@ -1,7 +1,7 @@
 package com.github.mellemahp.simulation;
 
-import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.SQLiteDataContainer;
 
 public interface DataContainerBuilder {
-    public DataContainer build();
+    public SQLiteDataContainer build();
 }

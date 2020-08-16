@@ -7,12 +7,14 @@ import lombok.CustomLog;
 
 @CustomLog
 public class BufferPoller implements Callable<Integer> {
-    private final BlockingQueue<DataContainer> dataBus; 
+    private final BlockingQueue<SQLiteDataContainer> dataBus; 
     private final PoisonVial poisonVial;
+    private final SQLiteWriter writer;
 
-    public BufferPoller(BlockingQueue<DataContainer> dataBusRef, int capacity) {
+    public BufferPoller(BlockingQueue<SQLiteDataContainer> dataBusRef, int capacity, SQLiteWriter sqliteWriter) {
         this.dataBus = dataBusRef;
         this.poisonVial = new PoisonVial(capacity);
+        writer = sqliteWriter;
     }
 
     @Override
@@ -25,15 +27,15 @@ public class BufferPoller implements Callable<Integer> {
     }
 
     private void pollForData() { 
-        DataContainer result = dataBus.poll();
+        SQLiteDataContainer result = dataBus.poll();
         
-        if (result == null) { 
-            log.info("NO data. Sad");
-        } else if (result instanceof PoisonPill) { 
-            log.info("Got Poison pill from Simulation: " + result.getSimulationID());
-            this.poisonVial.addPoisonPill(result);
-        } else {
-            log.info("GOT " + result);
+        if (result != null) {
+            if (result instanceof PoisonPill) {
+                this.poisonVial.addPoisonPill(result);
+                log.info("I've been poisoned! x.x");
+            } else {
+                this.writer.add(result);
+            }
         }
     }
 
@@ -41,5 +43,9 @@ public class BufferPoller implements Callable<Integer> {
         while (this.poisonVial.isNotFull()) {
             pollForData();
         }
+
+        log.info("Flushing buffer...");
+        this.writer.flushBuffer();
+        log.info("Done.");
     }
 }

@@ -6,8 +6,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.data_collection.BufferPoller;
-import com.github.mellemahp.data_collection.DataContainer;
+import com.github.mellemahp.data_collection.SQLiteDataContainer;
 import com.github.mellemahp.data_collection.SQLiteJDBCConnector;
+import com.github.mellemahp.data_collection.SQLiteWriter;
 import com.github.mellemahp.wrappers.ForkJoinScope;
 
 import lombok.CustomLog;
@@ -16,7 +17,8 @@ import lombok.CustomLog;
 public class SimulationRunner {
     private static ForkJoinScope<Integer> parallelExecutionScope = new ForkJoinScope<>(4);
     private static final int BUFFER_SIZE = 20;
-    private static final BlockingQueue<DataContainer> dataBus = new ArrayBlockingQueue<>(BUFFER_SIZE);
+    private static final int BATCH_SIZE = 10;
+    private static final BlockingQueue<SQLiteDataContainer> dataBus = new ArrayBlockingQueue<>(BUFFER_SIZE);
 
     public static void main(String[] args) {
 
@@ -33,7 +35,8 @@ public class SimulationRunner {
         dbConnector.createDBIfNotExists();
 
         int numberOfSimulations = simulations.size();
-        BufferPoller poller = new BufferPoller(dataBus, numberOfSimulations);
+        SQLiteWriter writer = new SQLiteWriter(dbConnector, BATCH_SIZE);
+        BufferPoller poller = new BufferPoller(dataBus, numberOfSimulations, writer);
 
         log.info(numberOfSimulations + " simulations found. Loading parallel execution context...");
         parallelExecutionScope.addTask(poller);
