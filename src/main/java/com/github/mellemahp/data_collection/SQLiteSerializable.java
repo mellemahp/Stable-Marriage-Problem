@@ -2,6 +2,7 @@ package com.github.mellemahp.data_collection;
 
 import java.lang.reflect.Field;
 import java.sql.Blob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -97,5 +98,11 @@ public interface SQLiteSerializable {
     default String convertToJson(Object value) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(value);
+    }
+
+    public default PreparedStatement getPreparedStatement(Connection connection) 
+        throws SQLException {
+        String sqliteString = getSqlStatement();
+        return connection.prepareStatement(sqliteString);
     }
 }

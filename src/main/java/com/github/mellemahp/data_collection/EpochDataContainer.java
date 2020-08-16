@@ -1,6 +1,5 @@
 package com.github.mellemahp.data_collection;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,7 +25,6 @@ public class EpochDataContainer extends SQLiteDataContainer {
             @NonNull Integer numNewPairings) {
 
         super(simID.hashCode() + epochNum);
-        this.sqlStatement = this.getSqlStatement();
 
         epoch = epochNum;
         simulationID = simID;

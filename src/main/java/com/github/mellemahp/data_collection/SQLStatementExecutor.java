@@ -31,16 +31,19 @@ public class SQLStatementExecutor {
         return dataContainerBuffer.size();
     }
 
-    public void execute(Connection connection) {
-        for (SQLiteDataContainer dataContainer : dataContainerBuffer) {
+    public void execute(Connection connection) throws SQLException {
+        SQLiteDataContainer dataContainer = dataContainerBuffer.get(0);
+        PreparedStatement preparedStatement = dataContainer.getPreparedStatement(connection);
+        
+        for (SQLiteDataContainer data : dataContainerBuffer) {
             try {
-                PreparedStatement preparedStatement = dataContainer.withConnection(connection)
-                        .toPreparedStatement();
-                preparedStatement.executeUpdate();
+                data.fillPreparedStatement(preparedStatement);
+                preparedStatement.addBatch();
             } catch (IllegalAccessException | JsonProcessingException | SQLException e) {
                 log.warning(e.getMessage());
                 e.printStackTrace();
             }
         }
+        preparedStatement.executeBatch();
     }
 }
