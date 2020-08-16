@@ -3,8 +3,8 @@ package com.github.mellemahp.data_collection;
 import java.sql.Blob;
 
 public enum SQLiteTypes {
-    INTEGER("integer", "setInt", int.class),
-    REAL("real", "setDouble", double.class),
+    INTEGER("integer", "setInt", Integer.class),
+    REAL("real", "setDouble", Double.class),
     TEXT("text", "setString", String.class),
     BLOB("blob", "setBlob", Blob.class);
 

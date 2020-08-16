@@ -29,7 +29,6 @@ public class SQLiteJDBCConnector {
          throws SQLException {
       for (SQLiteSimulationTables table : SQLiteSimulationTables.values()) {
          String tableDefinitionString = table.getTableDefinition();
-         log.info(tableDefinitionString);
          try (Statement statement = connection.createStatement()) {
             statement.execute(tableDefinitionString);
          }

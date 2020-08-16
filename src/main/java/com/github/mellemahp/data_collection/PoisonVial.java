@@ -21,6 +21,10 @@ public class PoisonVial {
     }
 
     public boolean isNotFull() { 
-        return this.nextIndex != capacity;
+        return this.nextIndex < capacity;
+    }
+
+    public int getSize() {
+        return this.nextIndex;
     }
 }

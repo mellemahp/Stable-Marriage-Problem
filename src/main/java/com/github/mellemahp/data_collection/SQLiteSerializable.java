@@ -55,7 +55,6 @@ public interface SQLiteSerializable {
     default void fillPreparedStatement(PreparedStatement preparedStatement) throws SQLException,
             IllegalAccessException, JsonProcessingException {
         List<Field> fields = getAnnotatedFields();
-
         for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
             int statementIndex = i + 1;
@@ -63,10 +62,10 @@ public interface SQLiteSerializable {
             SQLiteField annotation = field.getAnnotation(SQLiteField.class);
             SQLiteTypes sqlType = annotation.type();
 
-            Object value = field.get(sqlType.getType());
+            Object value = field.get(this);
             if (annotation.json()) {
                 value = convertToJson(value);
-            }
+            }   
 
             setValueForPreparedStatement(preparedStatement, sqlType, statementIndex, value);
         }
@@ -89,7 +88,7 @@ public interface SQLiteSerializable {
             preparedStatement.setDouble(statementIndex, valueDouble);
             break;
         case TEXT:
-            String valueString = (String) value;
+            String valueString = value.toString();
             preparedStatement.setString(statementIndex, valueString);
             break;
         }

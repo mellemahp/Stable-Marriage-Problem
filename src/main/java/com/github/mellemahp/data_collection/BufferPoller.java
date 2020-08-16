@@ -7,7 +7,7 @@ import lombok.CustomLog;
 
 @CustomLog
 public class BufferPoller implements Callable<Integer> {
-    private final BlockingQueue<SQLiteDataContainer> dataBus; 
+    private BlockingQueue<SQLiteDataContainer> dataBus; 
     private final PoisonVial poisonVial;
     private final SQLiteWriter writer;
 
@@ -27,8 +27,9 @@ public class BufferPoller implements Callable<Integer> {
     }
 
     private void pollForData() { 
-        SQLiteDataContainer result = dataBus.poll();
-        
+        log.info("Data bus size: " + this.dataBus.size() + "\t Poison Vial Size: " + this.poisonVial.getSize());
+
+        SQLiteDataContainer result = this.dataBus.poll();
         if (result != null) {
             if (result instanceof PoisonPill) {
                 this.poisonVial.addPoisonPill(result);
