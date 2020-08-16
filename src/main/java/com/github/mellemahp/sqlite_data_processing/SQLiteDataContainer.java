@@ -1,5 +1,7 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
+import com.github.mellemahp.sqlite_data_processing.annotations.PrimarySQLKey;
+import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
 
 public abstract class SQLiteDataContainer implements SQLiteSerializable {
     @PrimarySQLKey

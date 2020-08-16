@@ -1,14 +1,13 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import lombok.CustomLog;
 
 @CustomLog
-public class SQLiteJDBCConnector {
+public abstract class SQLiteJDBCConnector {
    private static final String CLASS_LOADER = "org.sqlite.JDBC";
    private final String connectionString;
 
@@ -25,15 +24,7 @@ public class SQLiteJDBCConnector {
       }
    }
 
-   private void buildAllTables(Connection connection)
-         throws SQLException {
-      for (SQLiteSimulationTables table : SQLiteSimulationTables.values()) {
-         String tableDefinitionString = table.getTableDefinition();
-         try (Statement statement = connection.createStatement()) {
-            statement.execute(tableDefinitionString);
-         }
-      }
-   }
+   protected abstract void buildAllTables(Connection connection) throws SQLException;
 
    public void executeInConnectionContext(SQLStatementExecutor sqlExecutor) {
       try (Connection connection = DriverManager.getConnection(connectionString)){

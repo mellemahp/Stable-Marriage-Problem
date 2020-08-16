@@ -4,8 +4,8 @@ import java.util.StringJoiner;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
-import com.github.mellemahp.data_collection.SQLiteDataContainer;
 import com.github.mellemahp.data_collection.EpochDataContainer;
+import com.github.mellemahp.data_collection.EpochDataContainerBuilder;
 import com.github.mellemahp.data_collection.PoisonPill;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
@@ -15,6 +15,8 @@ import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import lombok.CustomLog;
@@ -33,7 +35,7 @@ public class StableMarriageSimulator extends Simulator {
     private final EpochDataContainerBuilder epochDataContainerBuilder;
 
     public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
-            @NonNull BlockingQueue<SQLiteDataContainer> dataBusRef) {
+            @NonNull BlockingQueue<com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer> dataBusRef) {
 
         super(dataBusRef);
 

@@ -1,5 +1,7 @@
 package com.github.mellemahp.data_collection;
 
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+
 public class PoisonVial {
     private SQLiteDataContainer[] poisonPillArray;
     private int capacity;

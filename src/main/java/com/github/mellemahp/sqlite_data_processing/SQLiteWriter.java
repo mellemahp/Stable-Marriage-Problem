@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
 public class SQLiteWriter {
     private SQLiteJDBCConnector connector;
@@ -16,10 +16,6 @@ public class SQLiteWriter {
     }
 
     public void add(SQLiteDataContainer data) {
-        if (data instanceof PoisonPill) {
-            throw new IllegalArgumentException();
-        }
-
         sqlExecutor.add(data);
         if (sqlExecutor.getSize() >= this.batchSize) {
             this.flushBuffer();

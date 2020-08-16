@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
 import java.lang.reflect.Field;
 import java.sql.Blob;
@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 

@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import org.yaml.snakeyaml.Yaml;
 
 import com.github.mellemahp.configuration.SimulationConfig;
-import com.github.mellemahp.data_collection.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+
 
 public class SimulationFactory {
     private BlockingQueue<SQLiteDataContainer> dataBus;

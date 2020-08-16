@@ -6,9 +6,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.data_collection.BufferPoller;
-import com.github.mellemahp.data_collection.SQLiteDataContainer;
-import com.github.mellemahp.data_collection.SQLiteJDBCConnector;
-import com.github.mellemahp.data_collection.SQLiteWriter;
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteWriter;
 import com.github.mellemahp.wrappers.ForkJoinScope;
 
 import lombok.CustomLog;
@@ -31,7 +30,7 @@ public class SimulationRunner {
         List<Simulator> simulations = simulationFactory.buildSimulations(files);
         
         // Build database and ensure all schemas are created 
-        SQLiteJDBCConnector dbConnector = new SQLiteJDBCConnector("test.db");
+        SQLiteSimulationConnector dbConnector = new SQLiteSimulationConnector("test.db");
         dbConnector.createDBIfNotExists();
 
         int numberOfSimulations = simulations.size();

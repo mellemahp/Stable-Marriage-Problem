@@ -1,9 +1,12 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.github.mellemahp.sqlite_data_processing.annotations.PrimarySQLKey;
+import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 

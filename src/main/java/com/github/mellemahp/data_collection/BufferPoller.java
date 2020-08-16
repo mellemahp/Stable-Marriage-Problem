@@ -3,6 +3,9 @@ package com.github.mellemahp.data_collection;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteWriter;
+
 import lombok.CustomLog;
 
 @CustomLog

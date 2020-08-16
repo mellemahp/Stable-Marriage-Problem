@@ -1,4 +1,8 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.simulation;
+
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
+import com.github.mellemahp.sqlite_data_processing.SQLiteTableDefinition;
+import com.github.mellemahp.data_collection.EpochDataContainer;
 
 public enum SQLiteSimulationTables implements SQLiteTableDefinition {
     EPOCH(EpochDataContainer.class);

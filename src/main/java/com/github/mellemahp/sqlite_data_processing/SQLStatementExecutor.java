@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.sqlite_data_processing;
 
 import java.util.ArrayList;
 import java.util.List;

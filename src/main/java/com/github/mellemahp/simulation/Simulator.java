@@ -4,8 +4,8 @@ import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
-import com.github.mellemahp.data_collection.SQLiteDataContainer;
 import com.github.mellemahp.events.EventBus;
+import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
  
 public abstract class Simulator implements Callable<Integer> {
     protected final BlockingQueue<SQLiteDataContainer> dataBus;

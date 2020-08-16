@@ -1,10 +1,9 @@
-package com.github.mellemahp.simulation;
+package com.github.mellemahp.data_collection;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.github.mellemahp.data_collection.EpochDataContainer;
 import com.github.mellemahp.person.PersonList;
 import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.Suitor;
