@@ -21,22 +21,22 @@ public class BufferPoller implements Callable<Integer> {
     public Integer call() { 
         log.info("Polling for data");
         pollTillPoisoned();
-        log.info("Poison Vial full. Closing poller...");
+        log.info("Closing poller.");
 
         return 0;
     }
 
     private void pollForData() { 
-        log.info("Data bus size: " + this.dataBus.size() + "\t Poison Vial Size: " + this.poisonVial.getSize());
-
         SQLiteDataContainer result = this.dataBus.poll();
-        if (result != null) {
-            if (result instanceof PoisonPill) {
-                this.poisonVial.addPoisonPill(result);
-                log.info("I've been poisoned! x.x");
-            } else {
-                this.writer.add(result);
-            }
+        if (result == null) { 
+            return;
+        }
+
+        if (result instanceof PoisonPill) { 
+            log.info("Got Poison pill from Simulation");
+            this.poisonVial.addPoisonPill(result);
+        } else {
+            this.writer.add(result);
         }
     }
 
@@ -47,6 +47,6 @@ public class BufferPoller implements Callable<Integer> {
 
         log.info("Flushing buffer...");
         this.writer.flushBuffer();
-        log.info("Done.");
+        log.info("Done flushing.");
     }
 }

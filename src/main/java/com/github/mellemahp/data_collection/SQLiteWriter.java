@@ -19,10 +19,13 @@ public class SQLiteWriter {
     }
 
     public void add(SQLiteDataContainer data) {
-        if (sqlExecutor.getSize() >= this.batchSize) {
-            this.flushBuffer();
+        if (data instanceof PoisonPill) {
+            throw new IllegalArgumentException();
         }
 
         sqlExecutor.add(data);
+        if (sqlExecutor.getSize() >= this.batchSize) {
+            this.flushBuffer();
+        }
     }
 }

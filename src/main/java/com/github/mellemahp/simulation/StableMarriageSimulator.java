@@ -121,21 +121,8 @@ public class StableMarriageSimulator extends Simulator {
     }
 
     private void sendDataWithRetry(SQLiteDataContainer data) throws InterruptedException {
-        int retries = 0;
-        while(retries < NUMBER_OF_BUS_RETRIES) { 
-            try { 
-                boolean queueAcceptedData = dataBus.offer(data);
-                if (queueAcceptedData) { 
-                    break;
-                } else { 
-                    retries++;
-                    Thread.sleep(1);
-                }
-            } catch (InterruptedException e) { 
-                log.info("Failed to send data with 5 retries");
-                throw e;
-            }
-        }
+        // TODO: look into offer with timeout
+        dataBus.put(data);
     }
 
     private boolean stoppingConditionNotReached(int epochsWithoutChange) {

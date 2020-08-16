@@ -16,8 +16,8 @@ import lombok.CustomLog;
 @CustomLog
 public class SimulationRunner {
     private static ForkJoinScope<Integer> parallelExecutionScope = new ForkJoinScope<>(4);
-    private static final int BUFFER_SIZE = 20;
-    private static final int BATCH_SIZE = 10;
+    private static final int BUFFER_SIZE = 100;
+    private static final int BATCH_SIZE = 100;
     private static final BlockingQueue<SQLiteDataContainer> dataBus = new ArrayBlockingQueue<>(BUFFER_SIZE);
 
     public static void main(String[] args) {
