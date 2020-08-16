@@ -1,4 +1,4 @@
-package com.github.mellemahp.simulation;
+package com.github.mellemahp.stable_marriage_problem;
 
 import java.util.StringJoiner;
 import java.util.concurrent.BlockingQueue;
@@ -15,6 +15,7 @@ import com.github.mellemahp.person.Suitee;
 import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
+import com.github.mellemahp.simulation.Simulation;
 import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
 
 import org.apache.commons.math3.distribution.RealDistribution;
@@ -23,7 +24,7 @@ import lombok.CustomLog;
 import lombok.NonNull;
 
 @CustomLog
-public class StableMarriageSimulator extends Simulator {
+public class StableMarriageSimulation extends Simulation {
     private PersonList<Suitor> suitors;
     private PersonList<Suitee> suitees;
     private int epochChangeThreshold;
@@ -33,9 +34,10 @@ public class StableMarriageSimulator extends Simulator {
     private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
     private final EpochDataContainerBuilder epochDataContainerBuilder;
+    protected static final String LONGSEP = "=====================================";
 
-    public StableMarriageSimulator(@NonNull SimulationConfig simulationConfig,
-            @NonNull BlockingQueue<com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer> dataBusRef) {
+    public StableMarriageSimulation(@NonNull SimulationConfig simulationConfig,
+            @NonNull BlockingQueue<SQLiteDataContainer> dataBusRef) {
 
         super(dataBusRef);
 
@@ -91,7 +93,7 @@ public class StableMarriageSimulator extends Simulator {
     }
 
     @Override
-    public int run() throws InterruptedException {
+    public Integer call() throws InterruptedException {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
@@ -150,7 +152,6 @@ public class StableMarriageSimulator extends Simulator {
         return true;
     }
 
-    @Override
     public void printResults() {
         log.info("+++++++++++++++++++++");
         this.suitors.forEach(suitor -> {

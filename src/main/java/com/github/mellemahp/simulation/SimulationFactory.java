@@ -13,15 +13,24 @@ import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
 
 
-public class SimulationFactory {
-    private BlockingQueue<SQLiteDataContainer> dataBus;
-    private static Yaml yaml = new Yaml();
+public abstract class SimulationFactory {
+    protected BlockingQueue<SQLiteDataContainer> dataBus;
+    protected static Yaml yaml = new Yaml();
 
     public SimulationFactory(BlockingQueue<SQLiteDataContainer> bus) {
         this.dataBus = bus;
     }
 
-    public static FileInputStream extractFile(File file) {
+    public List<Simulation> buildSimulations(List<String> filePaths) {
+        return filePaths.stream()
+                .map(File::new)
+                .map(SimulationFactory::extractFile)
+                .map(fileStream -> yaml.loadAs(fileStream, SimulationConfig.class))
+                .map(this::newSimulation)
+                .collect(Collectors.toList());
+    }
+
+    protected static FileInputStream extractFile(File file) {
         try {
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {
@@ -30,12 +39,5 @@ public class SimulationFactory {
         return null;
     }
 
-    public List<Simulator> buildSimulations(List<String> filePaths) {
-        return filePaths.stream()
-                .map(File::new)
-                .map(SimulationFactory::extractFile)
-                .map(fileStream -> yaml.loadAs(fileStream, SimulationConfig.class))
-                .map(config -> new StableMarriageSimulator(config, this.dataBus))
-                .collect(Collectors.toList());
-    }
+    protected abstract Simulation newSimulation(SimulationConfig config);
 }

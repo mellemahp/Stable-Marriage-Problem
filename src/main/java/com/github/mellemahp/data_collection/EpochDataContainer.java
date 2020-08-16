@@ -40,9 +40,4 @@ public class EpochDataContainer extends SQLiteDataContainer {
     public UUID getSimulationID() {
         return this.simulationID;
     }
-
-    @Override
-    public String toString() {
-        return this.epoch.toString() + "\t" + this.numberOfNewPairings;
-    }
 }

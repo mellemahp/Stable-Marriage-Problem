@@ -1,15 +1,16 @@
-package com.github.mellemahp.simulation;
+package com.github.mellemahp.stable_marriage_problem;
 
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteTableDefinition;
 import com.github.mellemahp.data_collection.EpochDataContainer;
 
-public enum SQLiteSimulationTables implements SQLiteTableDefinition {
+public enum StableMarriageSimulationSQLiteTable implements SQLiteTableDefinition {
     EPOCH(EpochDataContainer.class);
 
     private final Class<? extends SQLiteSerializable> cls;
 
-    private SQLiteSimulationTables(Class<? extends SQLiteSerializable> clazz) {
+    private StableMarriageSimulationSQLiteTable(
+            Class<? extends SQLiteSerializable> clazz){
         cls = clazz;
     }
 
