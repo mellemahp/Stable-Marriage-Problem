@@ -49,11 +49,14 @@ public abstract class SimulationRunner {
     }
 
     public void initializeWriter() {
-        this.writer = new SQLiteWriter(this.dbConnector, this.writerBatchSize);
+        this.writer = new SQLiteWriter(this.writerBatchSize);
     }
 
     public void initializePoller(int numberOfSimulations) { 
-        this.poller = new BufferPoller(this.dataBus, numberOfSimulations, this.writer);
+        this.poller = new BufferPoller(this.dataBus, 
+            this.dbConnector, 
+            numberOfSimulations, 
+            this.writer);
     }
     
     private void initializeExecutionContext(List<Simulation> simulations) {

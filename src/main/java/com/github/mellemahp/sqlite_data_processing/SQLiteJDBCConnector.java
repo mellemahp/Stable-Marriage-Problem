@@ -26,7 +26,7 @@ public abstract class SQLiteJDBCConnector {
 
    protected abstract void buildAllTables(Connection connection) throws SQLException;
 
-   public void executeInConnectionContext(SQLStatementExecutor sqlExecutor) {
+   public void executeInConnectionContext(SQLiteExecutable sqlExecutor) {
       try (Connection connection = DriverManager.getConnection(connectionString)){
          sqlExecutor.execute(connection);
       } catch (SQLException e) {
