@@ -7,6 +7,8 @@ import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.data_collection.EpochDataContainer;
 import com.github.mellemahp.data_collection.EpochDataContainerBuilder;
 import com.github.mellemahp.data_collection.PoisonPill;
+import com.github.mellemahp.data_collection.SimulationDataContainer;
+import com.github.mellemahp.data_collection.SimulationDataContainerBuilder;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
@@ -34,6 +36,7 @@ public class StableMarriageSimulation extends Simulation {
     private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
     private final EpochDataContainerBuilder epochDataContainerBuilder;
+    private final SimulationDataContainerBuilder simulationDataContainerBuilder;
     protected static final String LONGSEP = "=====================================";
 
     public StableMarriageSimulation(@NonNull SimulationConfig simulationConfig,
@@ -42,6 +45,7 @@ public class StableMarriageSimulation extends Simulation {
         super(dataBusRef);
 
         epochDataContainerBuilder = new EpochDataContainerBuilder(simulationID);
+        simulationDataContainerBuilder = new SimulationDataContainerBuilder(simulationID);
 
         setSimulationStoppingConditions(simulationConfig);
         setSimulationDistributions(simulationConfig);
@@ -94,6 +98,7 @@ public class StableMarriageSimulation extends Simulation {
 
     @Override
     public Integer call() throws InterruptedException {
+        this.timer.start();
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
@@ -112,20 +117,31 @@ public class StableMarriageSimulation extends Simulation {
                 .withNumberOfNewPairings(numberOfNewPairings)
                 .build();
 
-            sendDataWithRetry(epochDataContainer);
+            dataBus.put(epochDataContainer);
         }
+        this.timer.end();
+        
+        log.info("Sending simulation data");
+        SimulationDataContainer simulationDataContainer = getSimulationLevelData();
+        dataBus.put(simulationDataContainer);
 
         log.info("Sending poison pill and terminating simulation");
         PoisonPill poisonPill = new PoisonPill(this.simulationID);
-        sendDataWithRetry(poisonPill);
+        dataBus.put(poisonPill);
         log.info(generateSimulationTerminationString());
 
         return 0;
     }
 
-    private void sendDataWithRetry(SQLiteDataContainer data) throws InterruptedException {
-        // TODO: look into offer with timeout
-        dataBus.put(data);
+    private SimulationDataContainer getSimulationLevelData() {
+        boolean isStable = isStablePairing();
+        int numberOfEpochs = eventBus.getCurrentEpoch();
+        
+        return this.simulationDataContainerBuilder
+            .withRunTimeInSeconds(this.timer.getRunTimeInSeconds())
+            .withIsStable(isStable)
+            .withNumberOfEpochs(numberOfEpochs)
+            .build();
     }
 
     private boolean stoppingConditionNotReached(int epochsWithoutChange) {

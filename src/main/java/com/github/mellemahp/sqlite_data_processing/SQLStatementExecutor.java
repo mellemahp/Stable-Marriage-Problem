@@ -32,18 +32,16 @@ public class SQLStatementExecutor {
     }
 
     public void execute(Connection connection) throws SQLException {
-        SQLiteDataContainer dataContainer = dataContainerBuffer.get(0);
-        PreparedStatement preparedStatement = dataContainer.getPreparedStatement(connection);
-        
+        // TODO: batch execution of prepared statements
         for (SQLiteDataContainer data : dataContainerBuffer) {
             try {
+                PreparedStatement preparedStatement = data.getPreparedStatement(connection);
                 data.fillPreparedStatement(preparedStatement);
-                preparedStatement.addBatch();
+                preparedStatement.execute();
             } catch (IllegalAccessException | JsonProcessingException | SQLException e) {
                 log.warning(e.getMessage());
                 e.printStackTrace();
             }
         }
-        preparedStatement.executeBatch();
     }
 }

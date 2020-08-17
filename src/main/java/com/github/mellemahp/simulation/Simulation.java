@@ -11,6 +11,7 @@ public abstract class Simulation implements Callable<Integer> {
     protected final BlockingQueue<SQLiteDataContainer> dataBus;
     protected final EventBus eventBus = new EventBus();
     protected final UUID simulationID = UUID.randomUUID();
+    protected final SimulationTimer timer = new SimulationTimer();
 
     public Simulation(BlockingQueue<SQLiteDataContainer> dataBusRef) { 
         dataBus = dataBusRef;
