@@ -50,6 +50,7 @@ public class SQLStatementExecutor {
                 PreparedStatement preparedStatement = getPreparedStatementOrCreate(data, connection);
                 data.fillPreparedStatement(preparedStatement);
                 preparedStatement.addBatch();
+                preparedStatement.clearParameters();
             } catch (IllegalAccessException | JsonProcessingException  e) {
                 log.warning(e.getMessage());
                 e.printStackTrace();
