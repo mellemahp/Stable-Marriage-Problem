@@ -1,13 +1,10 @@
 package com.github.mellemahp.data_collection;
 
-import java.util.Random;
 import java.util.UUID;
 
 import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
 import com.github.mellemahp.sqlite_data_processing.SQLiteTypes;
 import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
-
-import org.apache.commons.lang3.RandomUtils;
 
 import lombok.NonNull;
 

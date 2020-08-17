@@ -10,7 +10,7 @@ import com.github.mellemahp.wrappers.ForkJoinScope;
 
 public class StableMarriageSimulationRunner extends SimulationRunner {
     private static final int BUFFER_SIZE = 10000;
-    private static final int BATCH_SIZE = 200;
+    private static final int BATCH_SIZE = 1000;
     private static final int NUM_THREADS = 4;
     private static final String DB_NAME = "test.db";
     private static final BlockingQueue<SQLiteDataContainer> DATA_BUS = new ArrayBlockingQueue<>(BUFFER_SIZE);
