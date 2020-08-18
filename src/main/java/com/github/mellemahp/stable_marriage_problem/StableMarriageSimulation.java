@@ -5,10 +5,8 @@ import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
 import com.github.mellemahp.data_collection.EpochDataContainer;
-import com.github.mellemahp.data_collection.EpochDataContainerBuilder;
 import com.github.mellemahp.data_collection.PoisonPill;
 import com.github.mellemahp.data_collection.SimulationDataContainer;
-import com.github.mellemahp.data_collection.SimulationDataContainerBuilder;
 import com.github.mellemahp.distribution.DistributionBuilder;
 import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
@@ -18,7 +16,7 @@ import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
 import com.github.mellemahp.simulation.Simulation;
-import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
@@ -35,17 +33,12 @@ public class StableMarriageSimulation extends Simulation {
     private RealDistribution suiteeDistribution;
     private RealDistribution preferenceDistribution;
     private final StringJoiner newLineStringJoiner = new StringJoiner("\n");
-    private final EpochDataContainerBuilder epochDataContainerBuilder;
-    private final SimulationDataContainerBuilder simulationDataContainerBuilder;
     protected static final String LONGSEP = "=====================================";
 
     public StableMarriageSimulation(@NonNull SimulationConfig simulationConfig,
-            @NonNull BlockingQueue<SQLiteDataContainer> dataBusRef) {
+            @NonNull BlockingQueue<SQLiteSerializable> dataBusRef) {
 
         super(dataBusRef);
-
-        epochDataContainerBuilder = new EpochDataContainerBuilder(simulationID);
-        simulationDataContainerBuilder = new SimulationDataContainerBuilder(simulationID);
 
         setSimulationStoppingConditions(simulationConfig);
         setSimulationDistributions(simulationConfig);
@@ -110,11 +103,12 @@ public class StableMarriageSimulation extends Simulation {
             }
             eventBus.incrementEpoch();
             
-            EpochDataContainer epochDataContainer = this.epochDataContainerBuilder
-                .withEpoch(eventBus.getCurrentEpoch())
-                .withSuitors(this.suitors)
-                .withSuitees(this.suitees)
-                .withNumberOfNewPairings(numberOfNewPairings)
+            EpochDataContainer epochDataContainer = EpochDataContainer.builder()
+                .simulationID(simulationID)
+                .epoch(eventBus.getCurrentEpoch())
+                .suitorPairings(this.suitors.toPairingMap())
+                .suiteePairings(this.suitees.toPairingMap())
+                .numberOfNewPairings(numberOfNewPairings)
                 .build();
 
             dataBus.put(epochDataContainer);
@@ -137,10 +131,11 @@ public class StableMarriageSimulation extends Simulation {
         boolean isStable = isStablePairing();
         int numberOfEpochs = eventBus.getCurrentEpoch();
         
-        return this.simulationDataContainerBuilder
-            .withRunTimeInSeconds(this.timer.getRunTimeInSeconds())
-            .withIsStable(isStable)
-            .withNumberOfEpochs(numberOfEpochs)
+        return SimulationDataContainer.builder()
+            .simulationID(simulationID)
+            .runTimeInSeconds(this.timer.getRunTimeInSeconds())
+            .isStable(isStable)
+            .numberOfEpochs(numberOfEpochs)
             .build();
     }
 

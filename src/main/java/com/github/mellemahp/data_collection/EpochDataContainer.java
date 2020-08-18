@@ -1,43 +1,39 @@
 package com.github.mellemahp.data_collection;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
-import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteTypes;
+import com.github.mellemahp.sqlite_data_processing.annotations.PrimarySQLKey;
 import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
 
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Getter;
 
-public class EpochDataContainer extends SQLiteDataContainer {
-    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
-    public final Integer epoch;
+@Builder
+public class EpochDataContainer implements SQLiteSerializable {
+    @PrimarySQLKey
+    @SQLiteField(type = SQLiteTypes.INTEGER)
+    public Integer primaryKey;
     @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true)
-    public final UUID simulationID;
-    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
-    public final Map<Integer, Integer> suitorPairings;
-    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
-    public final Map<Integer, Integer> suiteePairings;
+    @Getter
+    public UUID simulationID;
     @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
-    public final Integer numberOfNewPairings;
+    public Integer epoch;
+    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
+    public Map<Integer, Integer> suitorPairings;
+    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
+    public Map<Integer, Integer> suiteePairings;
+    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
+    public Integer numberOfNewPairings;
 
-    public EpochDataContainer(
-            @NonNull Integer epochNum,
-            @NonNull UUID simID,
-            @NonNull Map<Integer, Integer> suitorPairingsMap,
-            @NonNull Map<Integer, Integer> suiteePairingsMap,
-            @NonNull Integer numNewPairings) {
-
-        super(simID.hashCode() + epochNum);
-
-        epoch = epochNum;
-        simulationID = simID;
-        suitorPairings = suitorPairingsMap;
-        suiteePairings = suiteePairingsMap;
-        numberOfNewPairings = numNewPairings;
-    }
-
-    public UUID getSimulationID() {
-        return this.simulationID;
+    public static class EpochDataContainerBuilder {
+        public EpochDataContainerBuilder simulationID(UUID simulationID) {
+            this.primaryKey = simulationID.hashCode() + new Random().nextInt(Integer.MAX_VALUE);
+            this.simulationID = simulationID;
+            return this;
+        }
     }
 }

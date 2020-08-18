@@ -24,7 +24,7 @@ public class SQLiteWriter {
         }
     }
 
-    public void add(SQLiteDataContainer data, Connection connection) throws SQLException {
+    public void add(SQLiteSerializable data, Connection connection) throws SQLException {
         sqlExecutor.add(data);
         if (sqlExecutor.getSize() >= this.batchSize) {
             this.flushBuffer(connection);

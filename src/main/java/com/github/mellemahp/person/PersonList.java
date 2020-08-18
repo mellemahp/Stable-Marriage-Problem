@@ -1,8 +1,10 @@
 package com.github.mellemahp.person;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.mellemahp.events.EventBus;
@@ -18,6 +20,8 @@ public class PersonList<T extends Person> implements Iterable<T> {
     private PersonSupplier<T> personSupplier;
     private List<T> listOfPersons;
     private EventBus bus;
+    
+    private static int NO_PARTNER_VALUE = -1;
 
     public PersonList(int numberOfPersons,
             @NonNull RealDistribution objectiveAttractivenessDistribution,
@@ -69,5 +73,18 @@ public class PersonList<T extends Person> implements Iterable<T> {
                 .map(Person::hashCode)
                 .map(String::valueOf)
                 .map(s -> s.substring(0, 4)).collect(Collectors.joining(" | "));
+    }
+
+    public Map<Integer, Integer> toPairingMap() {
+        Map<Integer, Integer> pairingMap = new HashMap<>();
+        for (T person : this) {
+            pairingMap.put(
+                person.getPersonID(),
+                person.getCurrentPartner() != null
+                    ? person.getCurrentPartner().getPersonID()
+                    : NO_PARTNER_VALUE
+            );
+        }
+        return pairingMap;
     }
 }

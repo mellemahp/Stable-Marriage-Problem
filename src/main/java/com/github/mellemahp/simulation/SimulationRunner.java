@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.data_collection.BufferPoller;
-import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteJDBCConnector;
 import com.github.mellemahp.sqlite_data_processing.SQLiteWriter;
 import com.github.mellemahp.wrappers.ForkJoinScope;
@@ -15,7 +15,7 @@ import lombok.CustomLog;
 @CustomLog
 public abstract class SimulationRunner {
     protected final ForkJoinScope<Integer> parallelExecutionContext;
-    protected final BlockingQueue<SQLiteDataContainer> dataBus;
+    protected final BlockingQueue<SQLiteSerializable> dataBus;
     protected final SimulationFactory simulationFactory;
     protected final SQLiteJDBCConnector dbConnector;
     protected final Integer writerBatchSize;
@@ -26,7 +26,7 @@ public abstract class SimulationRunner {
 
     public SimulationRunner(
         ForkJoinScope<Integer> parallelExecutionContext,
-        BlockingQueue<SQLiteDataContainer> dataBus,
+        BlockingQueue<SQLiteSerializable> dataBus,
         SimulationFactory simulationFactory,
         SQLiteJDBCConnector dbConnector,
         Integer writerBatchSize

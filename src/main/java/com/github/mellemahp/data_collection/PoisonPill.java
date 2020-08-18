@@ -2,17 +2,15 @@ package com.github.mellemahp.data_collection;
 
 import java.util.UUID;
 
-import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 
-public class PoisonPill extends SQLiteDataContainer {
+import lombok.Getter;
+
+public class PoisonPill implements SQLiteSerializable {
+    @Getter
     public final UUID simulationId;
 
     public PoisonPill(UUID simId) {
-        super(null);
         simulationId = simId;
-    }
-
-    public UUID getSimulationID() {
-        return this.simulationId;
     }
 }

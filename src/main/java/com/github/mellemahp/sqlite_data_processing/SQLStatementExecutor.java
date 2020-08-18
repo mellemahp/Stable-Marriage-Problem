@@ -15,13 +15,13 @@ import java.sql.SQLException;
 
 @CustomLog
 public class SQLStatementExecutor {
-    private final List<SQLiteDataContainer> dataContainerBuffer;
-    private final Map<Class<? extends SQLiteDataContainer>, PreparedStatement> statementMap = new HashMap<>();
+    private final List<SQLiteSerializable> dataContainerBuffer;
+    private final Map<Class<? extends SQLiteSerializable>, PreparedStatement> statementMap = new HashMap<>();
     public SQLStatementExecutor() {
         dataContainerBuffer = new ArrayList<>();
     }
 
-    public void add(SQLiteDataContainer data) {
+    public void add(SQLiteSerializable data) {
         dataContainerBuffer.add(data);
     }
 
@@ -33,9 +33,9 @@ public class SQLStatementExecutor {
         return dataContainerBuffer.size();
     }
 
-    private PreparedStatement getPreparedStatementOrCreate(SQLiteDataContainer data, 
+    private PreparedStatement getPreparedStatementOrCreate(SQLiteSerializable data, 
         Connection connection) throws SQLException {
-        Class<? extends SQLiteDataContainer> cls = data.getClass();
+        Class<? extends SQLiteSerializable> cls = data.getClass();
         PreparedStatement preparedStatement = this.statementMap.get(cls);
         if (preparedStatement == null) { 
             preparedStatement = data.getPreparedStatement(connection);
@@ -45,7 +45,7 @@ public class SQLStatementExecutor {
     }
 
     public void execute(Connection connection) throws SQLException {
-        for (SQLiteDataContainer data : dataContainerBuffer) {
+        for (SQLiteSerializable data : dataContainerBuffer) {
             try {
                 PreparedStatement preparedStatement = getPreparedStatementOrCreate(data, connection);
                 data.fillPreparedStatement(preparedStatement);

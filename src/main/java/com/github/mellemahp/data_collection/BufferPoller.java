@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
-import com.github.mellemahp.sqlite_data_processing.SQLiteDataContainer;
+import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteExecutable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteJDBCConnector;
 import com.github.mellemahp.sqlite_data_processing.SQLiteWriter;
@@ -14,12 +14,12 @@ import lombok.CustomLog;
 
 @CustomLog
 public class BufferPoller implements Callable<Integer> {
-    private final BlockingQueue<SQLiteDataContainer> dataBus;
+    private final BlockingQueue<SQLiteSerializable> dataBus;
     private final SQLiteJDBCConnector connector;
     private final SubPoller subpoller;
     private final SQLiteWriter writer;
 
-    public BufferPoller(BlockingQueue<SQLiteDataContainer> dataBus,
+    public BufferPoller(BlockingQueue<SQLiteSerializable> dataBus,
             SQLiteJDBCConnector connector,
             int vialCapacity,
             SQLiteWriter sqliteWriter) {
@@ -61,7 +61,7 @@ public class BufferPoller implements Callable<Integer> {
         }
 
         private void pollForData(Connection connection) throws SQLException {
-            SQLiteDataContainer result = dataBus.poll();
+            SQLiteSerializable result = dataBus.poll();
             if (result == null) { 
                 return;
             }
