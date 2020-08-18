@@ -1,7 +1,8 @@
 package com.github.mellemahp.sqlite_data_processing;
 
 import java.lang.reflect.Field;
-import java.sql.Blob;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -53,7 +54,7 @@ public interface SQLiteSerializable {
                 .replace("DataContainer", "")
                 .toLowerCase();
     }
-    
+
     default void fillPreparedStatement(PreparedStatement preparedStatement) throws SQLException,
             IllegalAccessException, JsonProcessingException {
         List<Field> fields = getAnnotatedFields();
@@ -62,37 +63,25 @@ public interface SQLiteSerializable {
             int statementIndex = i + 1;
 
             SQLiteField annotation = field.getAnnotation(SQLiteField.class);
-            SQLiteTypes sqlType = annotation.type();
+            SQLiteType sqlType = annotation.type();
 
             Object value = field.get(this);
             if (annotation.json()) {
                 value = convertToJson(value);
-            }   
+            }
 
             setValueForPreparedStatement(preparedStatement, sqlType, statementIndex, value);
         }
     }
 
     default void setValueForPreparedStatement(PreparedStatement preparedStatement,
-            SQLiteTypes sqlType, int statementIndex, Object value) throws SQLException {
-
-        switch (sqlType) {
-        case BLOB:
-            Blob valueBlob = (Blob) value;
-            preparedStatement.setBlob(statementIndex, valueBlob);
-            break;
-        case INTEGER:
-            Integer valueInteger = (Integer) value;
-            preparedStatement.setInt(statementIndex, valueInteger);
-            break;
-        case REAL:
-            Double valueDouble = (Double) value;
-            preparedStatement.setDouble(statementIndex, valueDouble);
-            break;
-        case TEXT:
-            String valueString = value.toString();
-            preparedStatement.setString(statementIndex, valueString);
-            break;
+            SQLiteType sqlType, int statementIndex, Object value) throws SQLException {
+        Class<?> valueType = sqlType.getClass();
+        Method method = sqlType.getMethod();
+        try {
+            method.invoke(preparedStatement, statementIndex, valueType.cast(value));
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
@@ -101,8 +90,8 @@ public interface SQLiteSerializable {
         return objectMapper.writeValueAsString(value);
     }
 
-    public default PreparedStatement getPreparedStatement(Connection connection) 
-        throws SQLException {
+    public default PreparedStatement getPreparedStatement(Connection connection)
+            throws SQLException {
         String sqliteString = getSqlStatement();
         return connection.prepareStatement(sqliteString);
     }

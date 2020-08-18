@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
-import com.github.mellemahp.sqlite_data_processing.SQLiteTypes;
+import com.github.mellemahp.sqlite_data_processing.SQLiteType;
 import com.github.mellemahp.sqlite_data_processing.annotations.PrimarySQLKey;
 import com.github.mellemahp.sqlite_data_processing.annotations.SQLiteField;
 
@@ -15,18 +15,18 @@ import lombok.Getter;
 @Builder
 public class EpochDataContainer implements SQLiteSerializable {
     @PrimarySQLKey
-    @SQLiteField(type = SQLiteTypes.INTEGER)
+    @SQLiteField(type = SQLiteType.INTEGER)
     public Integer primaryKey;
-    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true)
+    @SQLiteField(type=SQLiteType.TEXT, nonNull=true)
     @Getter
     public UUID simulationID;
-    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
+    @SQLiteField(type=SQLiteType.INTEGER, nonNull=true)
     public Integer epoch;
-    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
+    @SQLiteField(type=SQLiteType.TEXT, nonNull=true, json=true)
     public Map<Integer, Integer> suitorPairings;
-    @SQLiteField(type=SQLiteTypes.TEXT, nonNull=true, json=true)
+    @SQLiteField(type=SQLiteType.TEXT, nonNull=true, json=true)
     public Map<Integer, Integer> suiteePairings;
-    @SQLiteField(type=SQLiteTypes.INTEGER, nonNull=true)
+    @SQLiteField(type=SQLiteType.INTEGER, nonNull=true)
     public Integer numberOfNewPairings;
 
     public static class EpochDataContainerBuilder {
