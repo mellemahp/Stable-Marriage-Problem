@@ -1,4 +1,4 @@
-package com.github.mellemahp.events;
+package com.github.mellemahp.simulation.data_handling;
 
 import java.util.Map;
 
@@ -41,4 +41,6 @@ public class EventBus {
     public void putEvent(@NonNull Event event) {
         this.eventsEpochMap.get(this.currentEpoch).add(event);
     }
+
+    public interface Event {}
 }

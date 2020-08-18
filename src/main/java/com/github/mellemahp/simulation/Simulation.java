@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
-import com.github.mellemahp.events.EventBus;
+import com.github.mellemahp.simulation.data_handling.EventBus;
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
  
 public abstract class Simulation implements Callable<Integer> {

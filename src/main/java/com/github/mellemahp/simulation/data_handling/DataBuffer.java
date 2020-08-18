@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.simulation.data_handling;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -9,7 +9,7 @@ public class DataBuffer {
     public final BlockingQueue<SQLiteSerializable> queue;
     public final int size;
 
-    public DataBuffer(int bufferSize) { 
+    public DataBuffer(int bufferSize) {
         size = bufferSize;
         queue = new ArrayBlockingQueue<>(bufferSize);
     }

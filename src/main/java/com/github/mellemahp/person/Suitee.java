@@ -1,7 +1,7 @@
 package com.github.mellemahp.person;
 
-import com.github.mellemahp.events.Event;
-import com.github.mellemahp.events.EventBus;
+import com.github.mellemahp.simulation.data_handling.EventBus;
+import com.github.mellemahp.stable_marriage_problem.simulation.StableMarriageSimulationEvent;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
@@ -18,7 +18,7 @@ public class Suitee extends Person {
     public ProposalAnswer reviewProposal(@NonNull Suitor newSuitor) {
         if (newSuitorHasHigherPreferenceRanking(newSuitor)) {
             this.breakUp();
-            bus.putEvent(Event.NEW_PARTNER);
+            bus.putEvent(StableMarriageSimulationEvent.NEW_PARTNER);
             this.currentPartner = newSuitor;
 
             return ProposalAnswer.ACCEPT;

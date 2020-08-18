@@ -5,8 +5,8 @@ import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.simulation.SimulationRunner;
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
-import com.github.mellemahp.wrappers.ForkJoinScope;
-
+import com.github.mellemahp.stable_marriage_problem.simulation.StableMarriageSimulationFactory;
+import com.github.mellemahp.stable_marriage_problem.sqlite.StableMarriageSimulationSQLiteConnector;
 
 public class StableMarriageSimulationRunner extends SimulationRunner {
     private static final int BUFFER_SIZE = 10000;
@@ -17,7 +17,7 @@ public class StableMarriageSimulationRunner extends SimulationRunner {
 
     public StableMarriageSimulationRunner() {
         super(
-            new ForkJoinScope<>(NUM_THREADS),
+            NUM_THREADS,
             DATA_BUS, 
             new StableMarriageSimulationFactory(DATA_BUS),
             new StableMarriageSimulationSQLiteConnector(DB_NAME), 

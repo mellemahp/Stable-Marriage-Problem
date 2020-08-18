@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.stable_marriage_problem.data_containers;
 
 import java.util.Random;
 import java.util.UUID;

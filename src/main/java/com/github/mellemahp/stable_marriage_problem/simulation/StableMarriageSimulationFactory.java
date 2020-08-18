@@ -1,4 +1,4 @@
-package com.github.mellemahp.stable_marriage_problem;
+package com.github.mellemahp.stable_marriage_problem.simulation;
 
 import java.util.concurrent.BlockingQueue;
 

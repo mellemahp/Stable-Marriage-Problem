@@ -1,4 +1,4 @@
-package com.github.mellemahp.logging;
+package com.github.mellemahp.simulation;
 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
@@ -8,10 +8,10 @@ import java.util.logging.SimpleFormatter;
 
 import lombok.NonNull;
 
-public class CustomLoggerFactory {
+public class LoggerFactory {
     private static final String FORMAT = "[%1$tF %1$tT] [Thread%2$d:%3$s:%4$s] [%5$-5s] %6$s %n";
 
-    private CustomLoggerFactory() {
+    private LoggerFactory() {
         throw new IllegalStateException("Utility class");
     }
 

@@ -1,4 +1,4 @@
-package com.github.mellemahp.wrappers;
+package com.github.mellemahp.simulation.wrappers;
 
 import java.util.ArrayList;
 import java.util.List;

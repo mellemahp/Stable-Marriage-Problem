@@ -13,15 +13,10 @@ public class SQLiteWriter {
     }
 
     public void flushBuffer(Connection connection) throws SQLException {
-        try (Statement statement = connection.createStatement()){ 
-            statement.execute("BEGIN");
-        }
-    
+        changeCommitState(connection, CommitState.BEGIN);
         sqlExecutor.execute(connection);
         sqlExecutor.clear();
-        try (Statement statement = connection.createStatement()) { 
-            statement.execute("COMMIT");
-        }
+        changeCommitState(connection, CommitState.COMMIT);
     }
 
     public void add(SQLiteSerializable data, Connection connection) throws SQLException {
@@ -29,5 +24,16 @@ public class SQLiteWriter {
         if (sqlExecutor.getSize() >= this.batchSize) {
             this.flushBuffer(connection);
         }
+    }
+
+    private void changeCommitState(Connection connection, CommitState state) throws SQLException {
+        try (Statement statement = connection.createStatement()){ 
+            statement.execute(state.name());
+        }
+    }
+    
+    private enum CommitState {
+        BEGIN, 
+        COMMIT;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.simulation.data_handling;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,6 +6,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
+import com.github.mellemahp.simulation.poisoning.PoisonPill;
+import com.github.mellemahp.simulation.poisoning.PoisonVial;
 import com.github.mellemahp.sqlite_data_processing.SQLiteExecutable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteJDBCConnector;
 import com.github.mellemahp.sqlite_data_processing.SQLiteWriter;

@@ -1,9 +1,9 @@
-package com.github.mellemahp.stable_marriage_problem;
+package com.github.mellemahp.stable_marriage_problem.sqlite;
 
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
 import com.github.mellemahp.sqlite_data_processing.SQLiteTableDefinition;
-import com.github.mellemahp.data_collection.EpochDataContainer;
-import com.github.mellemahp.data_collection.SimulationDataContainer;
+
+import com.github.mellemahp.stable_marriage_problem.data_containers.*;
 
 public enum StableMarriageSimulationSQLiteTable implements SQLiteTableDefinition {
     EPOCH(EpochDataContainer.class),

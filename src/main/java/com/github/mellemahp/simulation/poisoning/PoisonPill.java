@@ -1,4 +1,4 @@
-package com.github.mellemahp.data_collection;
+package com.github.mellemahp.simulation.poisoning;
 
 import java.util.UUID;
 

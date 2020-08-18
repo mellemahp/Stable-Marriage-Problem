@@ -1,14 +1,10 @@
-package com.github.mellemahp.stable_marriage_problem;
+package com.github.mellemahp.stable_marriage_problem.simulation;
 
 import java.util.StringJoiner;
 import java.util.concurrent.BlockingQueue;
 
 import com.github.mellemahp.configuration.SimulationConfig;
-import com.github.mellemahp.data_collection.EpochDataContainer;
-import com.github.mellemahp.data_collection.PoisonPill;
-import com.github.mellemahp.data_collection.SimulationDataContainer;
 import com.github.mellemahp.distribution.DistributionBuilder;
-import com.github.mellemahp.events.Event;
 import com.github.mellemahp.person.Person;
 import com.github.mellemahp.person.PersonList;
 import com.github.mellemahp.person.Suitee;
@@ -16,7 +12,10 @@ import com.github.mellemahp.person.SuiteeSupplier;
 import com.github.mellemahp.person.Suitor;
 import com.github.mellemahp.person.SuitorSupplier;
 import com.github.mellemahp.simulation.Simulation;
+import com.github.mellemahp.simulation.poisoning.PoisonPill;
 import com.github.mellemahp.sqlite_data_processing.SQLiteSerializable;
+import com.github.mellemahp.stable_marriage_problem.data_containers.EpochDataContainer;
+import com.github.mellemahp.stable_marriage_problem.data_containers.SimulationDataContainer;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 
@@ -95,7 +94,7 @@ public class StableMarriageSimulation extends Simulation {
         int epochsWithoutChange = 0;
         while (stoppingConditionNotReached(epochsWithoutChange)) {
             this.suitors.forEach(Suitor::propose);
-            int numberOfNewPairings = eventBus.countEventsCurrentEpoch(Event.NEW_PARTNER);
+            int numberOfNewPairings = eventBus.countEventsCurrentEpoch(StableMarriageSimulationEvent.NEW_PARTNER);
             if (numberOfNewPairings != 0) {
                 epochsWithoutChange = 0;
             } else {

@@ -77,7 +77,7 @@ public interface SQLiteSerializable {
     default void setValueForPreparedStatement(PreparedStatement preparedStatement,
             SQLiteType sqlType, int statementIndex, Object value) throws SQLException {
         Class<?> valueType = sqlType.getClass();
-        Method method = sqlType.getMethod();
+        Method method = sqlType.getFillMethod();
         try {
             method.invoke(preparedStatement, statementIndex, valueType.cast(value));
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

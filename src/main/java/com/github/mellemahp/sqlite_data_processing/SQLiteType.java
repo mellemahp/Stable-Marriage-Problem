@@ -30,7 +30,7 @@ public enum SQLiteType {
         return this.typeCls;
     }
 
-    public Method getMethod() {
+    public Method getFillMethod() {
         Class<?>[] paramTypes = { int.class, this.typeCls };
         Method preparedStatementMethod = null;
         try { 

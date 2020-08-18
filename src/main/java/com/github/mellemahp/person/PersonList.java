@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.github.mellemahp.events.EventBus;
+import com.github.mellemahp.simulation.data_handling.EventBus;
 
 import org.apache.commons.math3.distribution.RealDistribution;
 

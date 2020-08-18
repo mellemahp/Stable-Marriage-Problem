@@ -1,4 +1,4 @@
-package com.github.mellemahp.stable_marriage_problem;
+package com.github.mellemahp.stable_marriage_problem.sqlite;
 
 import java.sql.Statement;
 import java.sql.Connection;

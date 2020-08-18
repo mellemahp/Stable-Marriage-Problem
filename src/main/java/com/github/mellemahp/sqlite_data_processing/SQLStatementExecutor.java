@@ -15,12 +15,8 @@ import java.sql.SQLException;
 
 @CustomLog
 public class SQLStatementExecutor {
-    private final List<SQLiteSerializable> dataContainerBuffer;
+    private final List<SQLiteSerializable> dataContainerBuffer = new ArrayList<>();
     private final Map<Class<? extends SQLiteSerializable>, PreparedStatement> statementMap = new HashMap<>();
-
-    public SQLStatementExecutor() {
-        dataContainerBuffer = new ArrayList<>();
-    }
 
     public void add(SQLiteSerializable data) {
         dataContainerBuffer.add(data);
